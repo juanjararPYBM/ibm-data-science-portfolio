@@ -1,4 +1,4 @@
-# 👨‍⚕️ Physician → Data Scientist | 15 Years Clinical Experience
+# 👨‍⚕️ Physician → Data Scientist | 13 Years Clinical Experience
 
 ![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
 ![Pandas](https://img.shields.io/badge/Pandas-Learning-green.svg)
