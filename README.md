@@ -7,11 +7,11 @@
 📍 [Medellin/Colombia] | 💼 Open to Health Data Science opportunities
 
 Transforming healthcare through data. Physician with 15+ years of clinical experience, primarily treating patients with oncological and palliative care needs in private practice. 
-Currently transitioning to Health Data Science through the IBM Professional Certificate, building predictive models to improve patient outcomes."
+Currently transitioning to Health Data Science through the IBM Professional Certificate, building predictive models to improve patient outcomes.
 
 ## 👨‍⚕️ About Me
 
-- 15+ years as Private Physician in private practice, primarily managing patients with oncology and palliative care conditions"
+- 15+ years as Private Physician in private practice, primarily managing patients with oncology and palliative care conditions
 - Expertise in **clinical decision-making**, **patient risk assessment**, and **end-of-life care protocols**
 - **Foundation:** Completed 3 modules of *Python for Everybody* (University of Michigan) prior to IBM Certificate
 - Currently transitioning to **Health Data Science** through IBM Professional Certificate
@@ -26,8 +26,8 @@ Patient Population: 15+ years managing complex cases including:
 - Palliative care and end-of-life decision making
 - Chronic disease management
 
-Clinical Data Fluency:  medical terminology, clinical workflows
-Regulatory Knowledge: HIPAA, clinical trial protocols, patient privacy
+- Clinical Data Fluency:  medical terminology, clinical workflows
+- Regulatory Knowledge: HIPAA, clinical trial protocols, patient privacy
 
 Why data science? After 15 years at the bedside, I realized the biggest impact I can have is scaling clinical insights through data.
 
@@ -55,12 +55,10 @@ Why data science? After 15 years at the bedside, I realized the biggest impact I
 - 💼 [LinkedIn](https://www.linkedin.com/in/juan-pablo-jaramillo-ornaza-584851225/)
 - 📧 [juanjara.r10@gmail.com](mailto:juanjara.r10@gmail.com)
 
-    *Life at the service of life"
+  *Life at the service of life*
 
 
 
 
 
-## Contact
-- LinkedIn: [https://www.linkedin.com/in/juan-pablo-jaramillo-ormaza-584851225/]
-- Email: [juanjara.r10@gmail.com]
+
