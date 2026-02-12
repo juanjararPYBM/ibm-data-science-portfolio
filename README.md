@@ -52,7 +52,7 @@ Why data science? After 15 years at the bedside, I realized the biggest impact I
 
 ## 📫 Let's Connect
 
-- 💼 [LinkedIn](https://www.linkedin.com/in/juan-pablo-jaramillo-ornaza-584851225/)
+- 💼 [LinkedIn](https://www.linkedin.com/in/juanjararhad/))
 - 📧 [juanjara.r10@gmail.com](mailto:juanjara.r10@gmail.com)
 
   *Life at the service of life*
