@@ -20,7 +20,7 @@ Currently transitioning to Health Data Science through the IBM Professional Cert
 
 ## 🏥 Clinical Domain Expertise
 
-Patient Population: 15+ years managing complex cases including:
+Patient Population: 13+ years managing complex cases including:
   
 - Oncology patients requiring longitudinal care
 - Palliative care and end-of-life decision making
