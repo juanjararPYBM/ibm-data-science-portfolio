@@ -11,7 +11,7 @@ Currently transitioning to Health Data Science through the IBM Professional Cert
 
 ## 👨‍⚕️ About Me
 
-- 15+ years as Private Physician in private practice, primarily managing patients with oncology and palliative care conditions
+- 13+ years as Private Physician in private practice, primarily managing patients with oncology and palliative care conditions
 - Expertise in **clinical decision-making**, **patient risk assessment**, and **end-of-life care protocols**
 - **Foundation:** Completed 3 modules of *Python for Everybody* (University of Michigan) prior to IBM Certificate
 - Currently transitioning to **Health Data Science** through IBM Professional Certificate
