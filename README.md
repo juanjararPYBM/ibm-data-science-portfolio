@@ -6,7 +6,7 @@
 
 📍 [Medellin/Colombia] | 💼 Open to Health Data Science opportunities
 
-Transforming healthcare through data. Physician with 15+ years of clinical experience, primarily treating patients with oncological and palliative care needs in private practice. 
+Transforming healthcare through data. Physician with 13+ years of clinical experience, primarily treating patients with oncological and palliative care needs in private practice. 
 Currently transitioning to Health Data Science through the IBM Professional Certificate, building predictive models to improve patient outcomes.
 
 ## 👨‍⚕️ About Me
