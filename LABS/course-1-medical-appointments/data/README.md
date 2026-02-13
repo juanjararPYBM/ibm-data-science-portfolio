@@ -11,7 +11,7 @@ and is focused on the question of whether or not patients show up for their
 appointment.
 
 ## Clinical Context
-As a physician with 15+ years in oncology and palliative care, appointment 
+As a physician with 13+ years in oncology and palliative care, appointment 
 adherence is critical for treatment outcomes. This dataset allows me to 
 apply data science to predict and prevent no-shows.
 
