@@ -33,15 +33,21 @@ print("=" * 50)
 print(f"Filas: {df.shape[0]}")
 print(f"Columnas: {df.shape[1]}")
 
+git add assets/screenshots/Captura de pantalla 2026-02-13 143310.png #MUESTRA DEL RESULTADO
+
 print("\n" + "=" * 50)
 print("2. PRIMERAS 5 FILAS")
 print("=" * 50)
-print(df.head())
+print(df.head()) #metodo que nos muestra las primeras 5 lineas por defecto. posteriormente lo personalizare para mostrar quizas las primeras 10 
+
+git add assets/screenshots/Captura de pantalla 2026-02-13 144243.png
 
 print("\n" + "=" * 50)
 print("3. INFORMACIÓN DE COLUMNAS")
 print("=" * 50)
 print(df.info())
+
+git add assets/screenshots/Captura de pantalla 2026-02-13 144939.png
 
 print("\n" + "=" * 50)
 print("4. ESTADÍSTICAS BÁSICAS")
