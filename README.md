@@ -41,18 +41,22 @@ Predictive analysis of patient appointment adherence using clinical dataset. App
 
 **Clinical Insight:** 20% no-show rate aligns with my private practice experience in oncology, where missed chemotherapy appointments often led to disease progression.
 
-### Currently Building:
+# 📈 Current Learning Path
+
 | Course | Project | Status |
 |--------|---------|--------|
-| Course 1 | Medical appointment no-show analysis | ✅ Complete |
-| Course 4 | Patient data cleaning with Pandas | 📋 Planned |
-| Course 6 | SQL database for clinical records | 📋 Planned |
-| Course 9 | Predictive model for readmission risk | 📋 Planned |
+| Course 1: What is Data Science? | Medical Appointment No-Shows | ✅ Complete |
+| Course 4: Python for Data Science | Patient Data Cleaning (Planned) | 📋 Planned |
+| Course 6: Databases & SQL | Clinical Records Database | 📋 Planned |
+| Course 9: Machine Learning | Hospital Readmission Risk Prediction | 🎯 Target |
+
 
 ## 🛠️ Technologies
 
-**Languages:** Python (Pandas, NumPy), SQL (SQLite, IBM Db2)   
+**Languages:** Python (Pandas, NumPy, Matplotlib, Seaborn), SQL  
 **Tools:** Jupyter Notebooks, Git/GitHub, VS Code  
+**Domain:** Healthcare Analytics, Clinical Decision Support
+
 
 ## 📫 Let's Connect
 
