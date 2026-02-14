@@ -9,7 +9,7 @@ import sys
 subprocess.check_call([sys.executable, "-m", "pip", "install", "pandas"])
 import pandas as pd
 
-import numpy as np
+
 
 # Cargar el dataset
 df = pd.read_csv(r'C:\Users\user\OneDrive\Desktop\VScode\Curso python\KaggleV2-May-2016.csv')
@@ -37,7 +37,7 @@ print("4. ESTADÍSTICAS BÁSICAS")
 print("=" * 50)
 resumen = df.describe()
 print(resumen[['Age', 'Scholarship','Hipertension','Diabetes','Alcoholism','SMS_received']])
-nulos= df.isnull().sum()        # cuántos nulos por columna
-nulosPER= df.isna().mean() * 100   # porcentaje de nulos
+nulos= df.isnull().sum()        # null per column
+nulosPER= df.isna().mean() * 100   # pecentage of null
 print(nulos)
 print(nulosPER)
