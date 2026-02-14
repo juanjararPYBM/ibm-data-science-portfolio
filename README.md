@@ -37,7 +37,7 @@ Why data science? After 13 years at the bedside, I realized the biggest impact I
 
 Predictive analysis of patient appointment adherence using clinical dataset. Applied data cleaning, exploratory analysis, and statistical insights to identify and describe findings
 
-![Dataset Overview](assets/screenshots/Overview.png)
+![Dataset Overview](LABS/assets/screenshots/Overview.png)
 
 **Clinical Insight:** 20% no-show rate aligns with my private practice experience in oncology, where missed chemotherapy appointments often led to disease progression.
 
