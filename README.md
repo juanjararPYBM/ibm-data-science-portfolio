@@ -60,7 +60,7 @@ Predictive analysis of patient appointment adherence using clinical dataset. App
 
 ## 📫 Let's Connect
 
-- 💼 [LinkedIn](https://www.linkedin.com/in/juanjararhad/))
+- 💼 [LinkedIn](https://www.linkedin.com/in/juanjararhad/)
 - 📧 [juanjara.r10@gmail.com](mailto:juanjara.r10@gmail.com)
 
   *Life at the service of life*
