@@ -1,0 +1,1 @@
+hola que tal en esta carpeta ordenare todos mis notebooks para subirlos al repositorio de github
