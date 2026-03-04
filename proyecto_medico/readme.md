@@ -1,5 +1,21 @@
 # 🫀 Cardiovascular Risk EWS — Full CRISP-DM Project
 
+---
+
+> *Dear reader,*
+>
+> Throughout my career I have faced many challenges. The hardest one has been the frustration of watching patients leave when treatment options run out — or when it is already too late to prevent or reverse the consequences of a disease. Losing loved ones to silent conditions that go unnoticed, without a clear diagnosis or a timely intervention.
+>
+> This first encounter with data science and AI tools opened a completely new landscape for me. I used several AI assistants along the way — Gemini, Grok, Minimax, and finally Claude. It is genuinely exciting to discover what becomes possible when you combine medical knowledge with the power of programming, data tools, visualization, and AI — all working together. The hundreds of lines of code, the visual details, the animations: none of it would have been achievable alone. Some tools better than others, it must be said.
+>
+> To you, dear reader: for the full experience of this project, I warmly invite you to explore it interactively through Colab. All feedback is more than welcome. I hope that in my next projects I can refine what I have learned here, and complement it with everything I still have left to discover.
+>
+> — *Juan Pablo Jaramillo Ormaza, MD*
+
+### 👋 [Welcome — Open the Full Project in Google Colab](https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/Master_Index.ipynb)
+
+---
+
 > **Early Warning Score (EWS) system for ischemic event detection**  
 > IBM Data Science Professional Certificate · CRISP-DM Methodology · juanjararPYBM
 
@@ -215,19 +231,6 @@ import shap
 **Data loading:** Robust 3-method fallback (`%store` → `kagglehub` → manual CSV)  
 **Standards:** HL7/FHIR · HIPAA · CRISP-DM
 
----
-
-## 👨‍⚕️ A Note from the Author
-
-Throughout my career I have faced many challenges. The hardest one: the frustration of watching patients leave when treatment options run out — or when it is already too late to prevent or reverse the consequences of a disease. Losing loved ones to silent conditions that go unnoticed, without a clear diagnosis or a timely intervention.
-
-This first encounter with data science and AI tools opened a completely new landscape for me. That is why I dedicated my full effort to building this project as meticulously as I could. I used several AI assistants along the way — Gemini, Grok, Minimax, and finally Claude. It is genuinely exciting to discover what becomes possible. The hundreds of lines of code, the visual details, the animations — none of it would have been achievable without these tools. Some better than others, it must be said.
-
-I hope that in my next projects I can refine what I have learned here, and complement it with everything I still have left to learn.
-
-> *The cost of a false negative in this system is not a metric. It is a patient who doesn't receive timely intervention.*
-
----
 
 ## 🛠️ Languages & Libraries
 
