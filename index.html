@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Juan Pablo Jaramillo Ormaza · Health Data Scientist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:   #070c18;
+    --navy2:  #0d1526;
+    --navy3:  #111e33;
+    --teal:   #00c9b1;
+    --teal2:  #007d6f;
+    --red:    #ff4444;
+    --amber:  #f59e0b;
+    --white:  #f0ece4;
+    --muted:  #7a8fa8;
+    --line:   rgba(0,201,177,0.13);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--navy); color: var(--white); font-family: 'Instrument Sans', sans-serif; font-weight: 300; overflow-x: hidden; cursor: none; }
+
+  .cursor { position: fixed; top:0; left:0; z-index:9999; pointer-events:none; }
+  .cursor-dot  { width:6px; height:6px; border-radius:50%; background:var(--teal); position:absolute; transform:translate(-50%,-50%); }
+  .cursor-ring { width:32px; height:32px; border-radius:50%; border:1px solid rgba(0,201,177,.5); position:absolute; transform:translate(-50%,-50%); transition:width .3s,height .3s,border-color .3s; }
+
+  body::before { content:''; position:fixed; inset:0; z-index:0; pointer-events:none; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E"); opacity:.025; }
+  .grid-bg { position:fixed; inset:0; z-index:0; pointer-events:none; background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px); background-size:80px 80px; mask-image:radial-gradient(ellipse at 50% 0%,black 0%,transparent 65%); }
+  .blob { position:fixed; top:5%; right:-15%; width:55vw; height:55vw; background:radial-gradient(circle,rgba(0,125,111,.16) 0%,transparent 65%); border-radius:50%; pointer-events:none; z-index:0; animation:pulse-blob 9s ease-in-out infinite alternate; }
+  @keyframes pulse-blob { from{transform:scale(1)} to{transform:scale(1.07) translate(-2%,3%)} }
+
+  nav { position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:24px 52px; background:linear-gradient(to bottom,rgba(7,12,24,.96),transparent); backdrop-filter:blur(2px); }
+  .nav-mark { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:.18em; color:var(--teal); text-transform:uppercase; }
+  .nav-links { display:flex; gap:36px; }
+  .nav-links a { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:.12em; color:var(--muted); text-decoration:none; text-transform:uppercase; transition:color .25s; }
+  .nav-links a:hover { color:var(--white); }
+
+  .hero { position:relative; z-index:1; min-height:100vh; display:flex; flex-direction:column; justify-content:flex-end; padding:0 52px 84px; overflow:hidden; }
+  .ekg-wrap { position:absolute; top:50%; left:0; right:0; transform:translateY(-50%); opacity:.1; pointer-events:none; }
+  .ekg-svg  { width:100%; height:120px; overflow:visible; }
+  .ekg-path { fill:none; stroke:var(--teal); stroke-width:1.5; stroke-dasharray:2200; stroke-dashoffset:2200; animation:ekg-draw 3.5s cubic-bezier(.4,0,.2,1) .8s forwards; }
+  @keyframes ekg-draw { to { stroke-dashoffset:0; } }
+  .pulse-ring { position:absolute; top:52%; right:8%; width:320px; height:320px; border:1px solid rgba(255,68,68,.1); border-radius:50%; animation:ring-expand 3.5s ease-out 1.5s infinite; pointer-events:none; }
+  .pulse-ring.r2 { animation-delay:2.2s; width:240px; height:240px; }
+  @keyframes ring-expand { 0%{transform:scale(.8);opacity:.5} 100%{transform:scale(1.5);opacity:0} }
+
+  .hero-label { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:.22em; color:var(--teal); text-transform:uppercase; margin-bottom:28px; opacity:0; animation:fade-up .6s ease .4s forwards; }
+  h1.hero-name { font-family:'Cormorant Garamond',serif; font-weight:300; font-size:clamp(54px,8vw,108px); line-height:.93; letter-spacing:-.02em; color:var(--white); position:relative; z-index:1; opacity:0; animation:fade-up .8s ease .6s forwards; }
+  h1.hero-name em { font-style:italic; color:var(--teal); }
+  .hero-divider { width:64px; height:1px; background:var(--teal); margin:36px 0 28px; opacity:0; animation:fade-up .6s ease .9s forwards; }
+  .hero-tagline { font-size:15px; line-height:1.75; color:rgba(240,236,228,.68); max-width:540px; opacity:0; animation:fade-up .6s ease 1.1s forwards; }
+  .hero-tagline strong { color:var(--white); font-weight:400; }
+  .hero-cta { display:flex; gap:18px; margin-top:52px; flex-wrap:wrap; opacity:0; animation:fade-up .6s ease 1.3s forwards; }
+
+  .btn-primary { display:inline-flex; align-items:center; gap:10px; padding:14px 32px; background:var(--teal); color:var(--navy); font-family:'DM Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; text-decoration:none; font-weight:500; transition:background .25s,transform .2s; }
+  .btn-primary:hover { background:#00e8cc; transform:translateY(-1px); }
+  .btn-ghost { display:inline-flex; align-items:center; gap:10px; padding:14px 32px; border:1px solid rgba(0,201,177,.35); color:var(--teal); font-family:'DM Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; text-decoration:none; transition:border-color .25s,background .25s; }
+  .btn-ghost:hover { border-color:var(--teal); background:rgba(0,201,177,.05); }
+
+  .scroll-hint { position:absolute; bottom:32px; right:52px; display:flex; align-items:center; gap:12px; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.18em; color:var(--muted); text-transform:uppercase; opacity:0; animation:fade-in .6s ease 2s forwards; }
+  .scroll-line { width:40px; height:1px; background:var(--muted); position:relative; overflow:hidden; }
+  .scroll-line::after { content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:var(--teal); animation:scan 2s ease-in-out 2.5s infinite; }
+  @keyframes scan { 0%{left:-100%} 100%{left:100%} }
+
+  .stats-strip { position:relative; z-index:1; display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-bottom:120px; opacity:0; animation:fade-up .7s ease 1.6s forwards; }
+  .stat-item { padding:36px 52px; border-right:1px solid var(--line); transition:background .25s; }
+  .stat-item:last-child { border-right:none; }
+  .stat-item:hover { background:rgba(0,201,177,.04); }
+  .stat-num { font-family:'Cormorant Garamond',serif; font-size:48px; font-weight:300; line-height:1; color:var(--white); letter-spacing:-.02em; }
+  .stat-num span { font-size:24px; color:var(--teal); }
+  .stat-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.16em; color:var(--muted); text-transform:uppercase; margin-top:8px; }
+
+  section { position:relative; z-index:1; padding:0 52px; }
+  .section-header { display:flex; align-items:baseline; gap:24px; margin-bottom:64px; }
+  .section-num    { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:.18em; color:var(--teal); text-transform:uppercase; }
+  .section-title  { font-family:'Cormorant Garamond',serif; font-size:clamp(32px,4vw,52px); font-weight:300; letter-spacing:-.01em; color:var(--white); }
+  .section-line   { flex:1; height:1px; background:linear-gradient(to right,var(--line),transparent); }
+
+  .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; margin-bottom:120px; }
+  .about-text { font-size:16px; line-height:1.85; color:rgba(240,236,228,.72); }
+  .about-text p + p { margin-top:20px; }
+  .about-text strong { color:var(--white); font-weight:400; }
+  .about-text em { color:var(--teal); font-style:normal; }
+  .expertise-item { padding:20px 0; border-bottom:1px solid var(--line); display:flex; align-items:flex-start; gap:16px; }
+  .expertise-item:first-child { border-top:1px solid var(--line); }
+  .exp-dot   { width:6px; height:6px; border-radius:50%; background:var(--teal); flex-shrink:0; margin-top:7px; }
+  .exp-title { font-size:13px; font-weight:500; color:var(--white); margin-bottom:4px; }
+  .exp-desc  { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); line-height:1.6; }
+
+  .project-wrap { margin-bottom:120px; }
+  .project-card { background:var(--navy2); border:1px solid var(--line); position:relative; overflow:hidden; transition:border-color .3s; }
+  .project-card:hover { border-color:rgba(0,201,177,.4); }
+  .project-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(to right,var(--teal),var(--teal2)); transform:scaleX(0); transform-origin:left; transition:transform .4s cubic-bezier(.25,.46,.45,.94); }
+  .project-card:hover::before { transform:scaleX(1); }
+  .project-inner { display:grid; grid-template-columns:1fr 400px; }
+  .project-content { padding:56px; }
+  .project-tag { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.18em; color:var(--teal); text-transform:uppercase; margin-bottom:20px; display:flex; align-items:center; gap:10px; }
+  .project-tag::before { content:''; display:block; width:20px; height:1px; background:var(--teal); }
+  .project-title    { font-family:'Cormorant Garamond',serif; font-size:44px; font-weight:300; line-height:1.05; color:var(--white); margin-bottom:6px; letter-spacing:-.01em; }
+  .project-subtitle { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:.14em; color:var(--teal); text-transform:uppercase; margin-bottom:24px; }
+  .project-desc { font-size:14px; line-height:1.8; color:rgba(240,236,228,.65); margin-bottom:32px; max-width:440px; }
+
+  .kpi-row { display:flex; gap:2px; margin-bottom:32px; }
+  .kpi-box { flex:1; padding:14px 16px; background:var(--navy3); border:1px solid var(--line); text-align:center; }
+  .kpi-v { font-family:'Cormorant Garamond',serif; font-size:22px; color:var(--teal); }
+  .kpi-l { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.12em; color:var(--muted); text-transform:uppercase; margin-top:4px; }
+
+  .phases-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:var(--line); }
+  .phase-cell { background:var(--navy2); padding:18px 20px; transition:background .2s; text-decoration:none; display:block; }
+  .phase-cell:hover { background:var(--navy3); }
+  .phase-cell.soon { opacity:.42; pointer-events:none; }
+  .phase-num  { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.14em; color:var(--muted); margin-bottom:5px; }
+  .phase-name { font-size:12px; font-weight:500; color:var(--white); margin-bottom:8px; line-height:1.3; }
+  .phase-badge { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.1em; text-transform:uppercase; padding:2px 8px; display:inline-block; }
+  .badge-done { background:rgba(0,201,177,.12); color:var(--teal); }
+  .badge-wip  { background:rgba(245,158,11,.12); color:var(--amber); }
+  .badge-soon { background:rgba(122,143,168,.1); color:var(--muted); }
+
+  .project-sidebar { border-left:1px solid var(--line); padding:56px 40px; display:flex; flex-direction:column; gap:28px; }
+  .sb-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
+  .sb-val   { font-family:'Cormorant Garamond',serif; font-size:30px; font-weight:300; color:var(--white); line-height:1.1; }
+  .sb-val small { font-size:13px; font-family:'Instrument Sans',sans-serif; color:var(--muted); display:block; margin-top:3px; }
+  .tech-tags { display:flex; flex-wrap:wrap; gap:7px; }
+  .tech-tag  { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.1em; padding:4px 10px; border:1px solid var(--line); color:var(--muted); }
+
+  .certs-wrap { margin-bottom:120px; }
+  .certs-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:var(--line); }
+  .cert-card { background:var(--navy2); padding:28px; transition:background .25s; }
+  .cert-card:hover { background:var(--navy3); }
+  .cert-issuer { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.16em; color:var(--teal); text-transform:uppercase; margin-bottom:10px; }
+  .cert-name   { font-size:14px; font-weight:500; color:var(--white); margin-bottom:8px; line-height:1.4; }
+  .cert-date   { font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); }
+  .cert-ip-badge { display:inline-block; margin-top:10px; font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.1em; text-transform:uppercase; padding:3px 10px; background:rgba(245,158,11,.1); color:var(--amber); border:1px solid rgba(245,158,11,.3); }
+
+  .letter-outer { position:relative; z-index:1; padding:0 52px 120px; }
+  .letter-card { background:var(--navy2); border:1px solid var(--line); border-left:3px solid var(--teal); padding:56px 64px; position:relative; max-width:800px; margin:0 auto; }
+  .letter-deco { font-family:'Cormorant Garamond',serif; font-size:130px; line-height:1; color:rgba(0,201,177,.06); position:absolute; top:12px; left:28px; pointer-events:none; user-select:none; }
+  .letter-salute { font-family:'Cormorant Garamond',serif; font-size:13px; letter-spacing:.18em; color:var(--teal); text-transform:uppercase; margin-bottom:32px; }
+  .letter-body { font-family:'Cormorant Garamond',serif; font-size:17px; line-height:1.9; color:rgba(240,236,228,.82); font-weight:300; }
+  .letter-body p + p { margin-top:20px; }
+  .letter-sig { margin-top:40px; padding-top:32px; border-top:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px; }
+  .sig-name { font-family:'Cormorant Garamond',serif; font-size:20px; color:var(--white); font-style:italic; }
+  .sig-sub  { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase; margin-top:5px; }
+
+  .contact-wrap { position:relative; z-index:1; margin-bottom:80px; padding:80px 52px; background:var(--navy2); border-top:1px solid var(--line); border-bottom:1px solid var(--line); display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
+  .contact-heading { font-family:'Cormorant Garamond',serif; font-size:clamp(36px,5vw,64px); font-weight:300; line-height:1.1; letter-spacing:-.02em; }
+  .contact-heading em { font-style:italic; color:var(--teal); }
+  .contact-links { display:flex; flex-direction:column; gap:16px; }
+  .contact-link { display:flex; align-items:center; gap:20px; text-decoration:none; padding:18px 20px; border:1px solid var(--line); transition:border-color .25s,background .25s; }
+  .contact-link:hover { border-color:rgba(0,201,177,.4); background:rgba(0,201,177,.03); }
+  .cl-icon { width:36px; height:36px; border:1px solid var(--line); display:flex; align-items:center; justify-content:center; font-size:13px; color:var(--teal); flex-shrink:0; transition:background .25s; }
+  .contact-link:hover .cl-icon { background:rgba(0,201,177,.1); }
+  .cl-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase; margin-bottom:3px; }
+  .cl-value { font-size:14px; color:var(--white); }
+
+  footer { position:relative; z-index:1; padding:28px 52px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--line); }
+  .footer-l { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase; }
+  .footer-r { font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); }
+  .footer-r a { color:var(--teal); text-decoration:none; }
+
+  @keyframes fade-up  { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes fade-in  { from{opacity:0} to{opacity:1} }
+  .reveal { opacity:0; transform:translateY(32px); transition:opacity .7s ease,transform .7s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  @media(max-width:960px){
+    nav{padding:20px 24px;} .nav-links{display:none;}
+    .hero,.contact-wrap,.letter-outer{padding-left:24px;padding-right:24px;}
+    section{padding:0 24px;}
+    .stats-strip{grid-template-columns:1fr 1fr;}
+    .stat-item{padding:28px 24px;}
+    .about-grid{grid-template-columns:1fr;gap:48px;}
+    .project-inner{grid-template-columns:1fr;}
+    .project-sidebar{border-left:none;border-top:1px solid var(--line);}
+    .phases-grid{grid-template-columns:repeat(2,1fr);}
+    .certs-grid{grid-template-columns:1fr 1fr;}
+    .contact-wrap{grid-template-columns:1fr;gap:40px;padding:48px 24px;}
+    .letter-card{padding:36px 28px;}
+    footer{padding:24px;flex-direction:column;gap:12px;text-align:center;}
+  }
+  @media(max-width:580px){
+    .certs-grid{grid-template-columns:1fr;}
+    .kpi-row{flex-wrap:wrap;}
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor"><div class="cursor-dot" id="dot"></div><div class="cursor-ring" id="ring"></div></div>
+<div class="grid-bg"></div>
+<div class="blob"></div>
+
+<nav>
+  <div class="nav-mark">JPJO · Health DS</div>
+  <div class="nav-links">
+    <a href="#about">Sobre mí</a>
+    <a href="#project">Proyecto</a>
+    <a href="#certs">Formación</a>
+    <a href="#contact">Contacto</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="ekg-wrap">
+    <svg class="ekg-svg" viewBox="0 0 1400 120" preserveAspectRatio="none">
+      <path class="ekg-path" d="M0,60 L100,60 L120,60 L140,20 L155,100 L170,60 L270,60 L290,20 L305,100 L320,60 L440,60 L460,20 L475,100 L490,60 L600,60 L620,20 L635,100 L650,60 L760,60 L780,20 L795,100 L810,60 L930,60 L950,20 L965,100 L980,60 L1100,60 L1120,20 L1135,100 L1150,60 L1400,60"/>
+    </svg>
+  </div>
+  <div class="pulse-ring"></div>
+  <div class="pulse-ring r2"></div>
+
+  <div class="hero-label">Medical Doctor → Health Data Scientist · Medellín, Colombia</div>
+  <h1 class="hero-name">Juan Pablo<br><em>Jaramillo</em><br>Ormaza</h1>
+  <div class="hero-divider"></div>
+  <p class="hero-tagline">
+    <strong>Médico general con 13+ años de práctica clínica privada</strong>, atendiendo pacientes
+    con necesidades oncológicas y de cuidados paliativos. En transición activa hacia Health Data Science —
+    construyendo modelos que escalan el conocimiento clínico a través de los datos.
+  </p>
+  <div class="hero-cta">
+    <a href="https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/Master_Index.ipynb" target="_blank" class="btn-primary">
+      Ver proyecto en Colab
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1 1h11v11M1 12L12 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </a>
+    <a href="#about" class="btn-ghost">
+      Conocer más
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M2 7l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </a>
+  </div>
+  <div class="scroll-hint"><div class="scroll-line"></div>Scroll</div>
+</section>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stat-item"><div class="stat-num">13<span>+</span></div><div class="stat-label">Años práctica clínica</div></div>
+  <div class="stat-item"><div class="stat-num">1<span>k</span></div><div class="stat-label">Pacientes · dataset</div></div>
+  <div class="stat-item"><div class="stat-num">14</div><div class="stat-label">Variables clínicas</div></div>
+  <div class="stat-item"><div class="stat-num">6</div><div class="stat-label">Fases CRISP-DM</div></div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header reveal">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Sobre mí</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="about-grid reveal">
+    <div class="about-text">
+      <p>Soy médico general graduado de la <strong>Universidad de Antioquia</strong>, con más de <strong>13 años de práctica clínica privada</strong> atendiendo principalmente pacientes con necesidades oncológicas y de cuidados paliativos. Cada diagnóstico, cada decisión de tratamiento, cada conversación difícil — todo eso me enseñó a leer patrones en la incertidumbre.</p>
+      <p>La frustración de ver pacientes llegar demasiado tarde, sin diagnóstico oportuno, me llevó a una pregunta inevitable: <em>¿qué pasaría si pudiéramos predecir esto?</em> Esa pregunta me trajo aquí — al cruce entre la medicina clínica y la ciencia de datos.</p>
+      <p>Hoy aplico <strong>Python, machine learning y metodología CRISP-DM</strong> para construir modelos de riesgo clínico. No desde la teoría — desde la comprensión real de lo que significa un falso negativo en un paciente con riesgo cardiovascular.</p>
+    </div>
+    <div>
+      <div class="expertise-item"><div class="exp-dot"></div><div><div class="exp-title">Medicina General · Universidad de Antioquia</div><div class="exp-desc">13+ años · Práctica privada · Oncología & cuidados paliativos</div></div></div>
+      <div class="expertise-item"><div class="exp-dot"></div><div><div class="exp-title">IBM Data Science Professional Certificate</div><div class="exp-desc">Coursera · En progreso · CRISP-DM · Python · ML predictivo</div></div></div>
+      <div class="expertise-item"><div class="exp-dot"></div><div><div class="exp-title">Python for Everybody · University of Michigan</div><div class="exp-desc">3 módulos completados · Estructuras de datos · Web Data Access</div></div></div>
+      <div class="expertise-item"><div class="exp-dot"></div><div><div class="exp-title">Clinical Decision Support</div><div class="exp-desc">ESC Guidelines · AHA · Biomarcadores cardíacos · HL7/FHIR</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECT -->
+<section id="project">
+  <div class="section-header reveal">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Proyecto Principal</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="project-wrap reveal">
+    <div class="project-card">
+      <div class="project-inner">
+        <div class="project-content">
+          <div class="project-tag">CRISP-DM · Cardiovascular Risk · Colab Interactive</div>
+          <h2 class="project-title">CardioRisk</h2>
+          <div class="project-subtitle">Clasificación Isquémica · Early Warning Score</div>
+          <p class="project-desc">Clasificador de riesgo cardiovascular sobre 1,000 registros clínicos reales y 14 variables — incluyendo pendiente ST, oldpeak, angina de esfuerzo y biomarcadores clave. Objetivo: un Early Warning Score auditable que estratifique el riesgo isquémico minimizando falsos negativos. Metodología CRISP-DM completa con referencias clínicas reales (ESC, AHA, Nature, Springer).</p>
+          <div style="margin-bottom:4px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;">KPIs del modelo</div>
+          <div class="kpi-row">
+            <div class="kpi-box"><div class="kpi-v">Recall</div><div class="kpi-l">Métrica primaria</div></div>
+            <div class="kpi-box"><div class="kpi-v" style="color:var(--red);">FN→0</div><div class="kpi-l">Falsos negativos</div></div>
+            <div class="kpi-box"><div class="kpi-v">14</div><div class="kpi-l">Variables clínicas</div></div>
+          </div>
+          <div class="phases-grid">
+            <a href="https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/Fase1_Business_Understanding.ipynb" class="phase-cell" target="_blank">
+              <div class="phase-num">FASE 01</div><div class="phase-name">Business Understanding</div><span class="phase-badge badge-done">✓ Completa</span>
+            </a>
+            <a href="https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/Fase2_Data_Understanding.ipynb" class="phase-cell" target="_blank">
+              <div class="phase-num">FASE 02</div><div class="phase-name">Data Understanding</div><span class="phase-badge badge-done">✓ Completa</span>
+            </a>
+            <a href="https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/Fase3_Data_Preparation.ipynb" class="phase-cell" target="_blank">
+              <div class="phase-num">FASE 03</div><div class="phase-name">Data Preparation</div><span class="phase-badge badge-wip">⟳ En progreso</span>
+            </a>
+            <div class="phase-cell soon"><div class="phase-num">FASE 04</div><div class="phase-name">Modeling</div><span class="phase-badge badge-soon">Próxima</span></div>
+            <div class="phase-cell soon"><div class="phase-num">FASE 05</div><div class="phase-name">Evaluation</div><span class="phase-badge badge-soon">Próxima</span></div>
+            <div class="phase-cell soon"><div class="phase-num">FASE 06</div><div class="phase-name">Deployment</div><span class="phase-badge badge-soon">Próxima</span></div>
+          </div>
+        </div>
+        <div class="project-sidebar">
+          <div><div class="sb-label">Dataset</div><div class="sb-val">1,000<small>registros clínicos · Kaggle CV</small></div></div>
+          <div>
+            <div class="sb-label">Predictor principal</div>
+            <div style="font-size:14px;color:rgba(240,236,228,.75);line-height:1.7;"><strong style="color:var(--white);">Pendiente ST descendente</strong> — signo patognomónico de isquemia obstructiva severa. Mayor correlación Spearman del dataset.</div>
+          </div>
+          <div><div class="sb-label">Stack técnico</div><div class="tech-tags"><span class="tech-tag">Python</span><span class="tech-tag">Scikit-learn</span><span class="tech-tag">Pandas</span><span class="tech-tag">SMOTE</span><span class="tech-tag">KaggleHub</span><span class="tech-tag">Spearman</span><span class="tech-tag">CRISP-DM</span></div></div>
+          <div><div class="sb-label">Referencias clínicas</div><div class="tech-tags"><span class="tech-tag">ESC Guidelines</span><span class="tech-tag">AHA 2025</span><span class="tech-tag">Nature 2025</span><span class="tech-tag">Springer 2026</span></div></div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <a href="https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/Master_Index.ipynb" target="_blank" class="btn-primary" style="justify-content:center;">Abrir Master Index <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 1h10v10M1 11L11 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+            <a href="https://github.com/juanjararPYBM/ibm-data-science-portfolio/tree/main/proyecto_medico" target="_blank" class="btn-ghost" style="justify-content:center;">Ver código en GitHub <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 1h10v10M1 11L11 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certs">
+  <div class="section-header reveal">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Formación & Credenciales</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="certs-wrap reveal">
+    <div class="certs-grid">
+      <div class="cert-card" style="border-top:2px solid var(--amber);">
+        <div class="cert-issuer" style="color:var(--amber);">IBM · Coursera</div>
+        <div class="cert-name">Data Science Professional Certificate</div>
+        <div class="cert-date">2025 – 2026</div>
+        <div class="cert-ip-badge">En progreso</div>
+      </div>
+      <div class="cert-card" style="border-top:2px solid var(--teal);">
+        <div class="cert-issuer">IBM · Coursera</div>
+        <div class="cert-name">What is Data Science?</div>
+        <div class="cert-date">Expedición: feb. 2026</div>
+      </div>
+      <div class="cert-card" style="border-top:2px solid var(--teal);">
+        <div class="cert-issuer">IBM · Coursera</div>
+        <div class="cert-name">Tools for Data Science</div>
+        <div class="cert-date">Expedición: feb. 2026</div>
+      </div>
+      <div class="cert-card" style="border-top:2px solid rgba(0,201,177,.35);">
+        <div class="cert-issuer">University of Michigan</div>
+        <div class="cert-name">Programming for Everybody <span style="font-weight:300;color:var(--muted);font-size:12px;">(Getting Started with Python)</span></div>
+        <div class="cert-date">Expedición: dic. 2025</div>
+      </div>
+      <div class="cert-card" style="border-top:2px solid rgba(0,201,177,.35);">
+        <div class="cert-issuer">University of Michigan</div>
+        <div class="cert-name">Python Data Structures</div>
+        <div class="cert-date">Expedición: dic. 2025</div>
+      </div>
+      <div class="cert-card" style="border-top:2px solid rgba(0,201,177,.35);">
+        <div class="cert-issuer">University of Michigan</div>
+        <div class="cert-name">Using Python to Access Web Data</div>
+        <div class="cert-date">Expedición: ene. 2026</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LETTER -->
+<div class="letter-outer reveal">
+  <div style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.18em;color:var(--teal);text-transform:uppercase;margin-bottom:32px;max-width:800px;margin-left:auto;margin-right:auto;display:flex;align-items:center;gap:16px;"><div style="width:32px;height:1px;background:var(--teal);"></div>Una nota personal</div>
+  <div class="letter-card">
+    <div class="letter-deco">"</div>
+    <div class="letter-salute">Dear reader,</div>
+    <div class="letter-body">
+      <p>Throughout my career I have faced many challenges. The hardest one has been the frustration of watching patients leave when treatment options run out — or when it is already too late to prevent or reverse the consequences of a disease. Losing loved ones to silent conditions that go unnoticed, without a clear diagnosis or a timely intervention.</p>
+      <p>This first encounter with data science and AI tools opened a completely new landscape for me. I used several AI assistants along the way — Gemini, Grok, Minimax, and finally Claude. It is genuinely exciting to discover what becomes possible when you combine medical knowledge with the power of programming, data tools, visualization, and AI — all working together. The hundreds of lines of code, the visual details, the animations: none of it would have been achievable alone. Some tools better than others, it must be said.</p>
+      <p>To you, dear reader: for the full experience of this project, I warmly invite you to explore it interactively through Colab. All feedback is more than welcome. I hope that in my next projects I can refine what I have learned here, and complement it with everything I still have left to discover.</p>
+    </div>
+    <div class="letter-sig">
+      <div><div class="sig-name">Juan Pablo Jaramillo Ormaza, MD</div><div class="sig-sub">Medellín, Colombia · 2025</div></div>
+      <a href="https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/Master_Index.ipynb" target="_blank" class="btn-primary">Explorar el proyecto <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 1h10v10M1 11L11 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div id="contact" class="contact-wrap reveal">
+  <div>
+    <div style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.18em;color:var(--teal);text-transform:uppercase;margin-bottom:16px;">Disponible para oportunidades</div>
+    <h2 class="contact-heading">Hablemos de<br><em>datos clínicos</em></h2>
+  </div>
+  <div class="contact-links">
+    <a href="mailto:juanjara.r10@gmail.com" class="contact-link"><div class="cl-icon">✉</div><div><div class="cl-label">Email</div><div class="cl-value">juanjara.r10@gmail.com</div></div></a>
+    <a href="https://www.linkedin.com/in/juanjararhad/" target="_blank" class="contact-link"><div class="cl-icon">in</div><div><div class="cl-label">LinkedIn</div><div class="cl-value">juanjararhad</div></div></a>
+    <a href="https://github.com/juanjararPYBM" target="_blank" class="contact-link"><div class="cl-icon">⌥</div><div><div class="cl-label">GitHub</div><div class="cl-value">juanjararPYBM</div></div></a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-l">© 2025 Juan Pablo Jaramillo Ormaza · Medellín, Colombia</div>
+  <div class="footer-r"><em>Life at the service of life</em> · <a href="https://github.com/juanjararPYBM/ibm-data-science-portfolio" target="_blank">GitHub</a></div>
+</footer>
+
+<script>
+  const dot=document.getElementById('dot'),ring=document.getElementById('ring');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+  (function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+  document.querySelectorAll('a,button,.phase-cell,.cert-card').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{ring.style.width='52px';ring.style.height='52px';ring.style.borderColor='rgba(0,201,177,1)';});
+    el.addEventListener('mouseleave',()=>{ring.style.width='32px';ring.style.height='32px';ring.style.borderColor='rgba(0,201,177,.5)';});
+  });
+  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
