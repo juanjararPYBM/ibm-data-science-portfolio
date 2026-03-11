@@ -1,87 +1,147 @@
-# Hipócrates MCP Ecosystem — Reglas de Orquestación
+# 🏥 Hipócrates MCP Ecosystem — Reglas de Orquestación
 
 > Este archivo es leído automáticamente por Claude Code y por Claude Desktop (vía GitHub MCP) al inicio de cada sesión.
-> Define cómo delegar trabajo entre agentes para maximizar eficiencia de tokens.
+> Define cómo delegar trabajo entre agentes para maximizar eficiencia de tokens sin comprometer calidad.
 
 ---
 
-## Regla de Oro
+## ⚡ Regla de Oro
 
 **Claude Sonnet solo piensa. Los microservicios ejecutan.**
 
-Antes de generar cualquier código, script o archivo de configuración, Claude debe evaluar si la tarea puede delegarse a Deepseek. Si puede delegarse, DEBE delegarse.
+Antes de generar cualquier código, script, documento o búsqueda, Claude evalúa si la tarea puede delegarse. Si puede delegarse, DEBE delegarse.
 
 ---
 
-## Tabla de Delegación Obligatoria
+## 🚦 Inicio de Sesión
 
-| Tipo de tarea | Agente | Nunca usar Claude para esto |
-|---------------|--------|-----------------------------|
-| Generar código Python (sklearn, pandas, matplotlib) | `deepseek:deepseek_chat` | ✅ Delegar siempre |
-| Scripts de PowerShell / bash / shell | `deepseek:deepseek_chat` | ✅ Delegar siempre |
-| Boilerplate de notebooks Jupyter | `deepseek:deepseek_chat` | ✅ Delegar siempre |
-| Debugging de errores de sintaxis | `deepseek:deepseek_chat` | ✅ Delegar siempre |
-| Búsqueda de documentación / errores | `deepseek:web_search` | ✅ Delegar siempre |
-| Visualizaciones médicas e imágenes | `nano-banana:generate_medical_image` | ✅ Delegar siempre |
-| Gráficos de riesgo cardiovascular | `nano-banana:create_risk_chart` | ✅ Delegar siempre |
-| Commits y actualizaciones al repo | `github:push_files` | ✅ Delegar siempre |
-| Narración de hallazgos clínicos | `inworld-tts:generate_speech` | ✅ Delegar siempre |
+Al iniciar cada sesión, Claude DEBE:
+1. Leer este archivo vía GitHub MCP para auto-contextualizarse
+2. No pedir a Juan que explique el estado del proyecto
+3. Confirmar qué agentes están disponibles antes de comenzar
 
-## Tareas Exclusivas de Claude Sonnet
+Esto elimina tokens de contexto innecesarios en cada sesión.
 
-- Decisiones arquitecturales del modelo ML
-- Interpretación clínica de métricas (Recall, AUC-ROC en contexto médico)
+---
+
+## 📋 Tabla de Delegación
+
+### ✅ Delegar SIEMPRE a Deepseek — sin revisión de Claude
+
+| Tarea | Herramienta |
+|-------|-------------|
+| Código Python mecánico (sklearn pipelines, train/test split, métricas numéricas) | `deepseek:deepseek_chat` |
+| Scripts PowerShell / bash / docker / configuración | `deepseek:deepseek_chat` |
+| Formateo y limpieza de datos (pandas, valores nulos, encoding, outliers) | `deepseek:deepseek_chat` |
+| Conversión de formatos (CSV, JSON, pickle, notebooks) | `deepseek:deepseek_chat` |
+| Boilerplate de notebooks Jupyter | `deepseek:deepseek_chat` |
+| Docstrings y comentarios de código | `deepseek:deepseek_chat` |
+| Grid search y cross-validation (solo el código, no la interpretación) | `deepseek:deepseek_chat` |
+| Debugging errores sintácticos (SyntaxError, IndentationError, NameError, TypeError) | `deepseek:deepseek_chat` |
+| Búsqueda de documentación, errores específicos, ejemplos de código | `deepseek:web_search` |
+| Commits y actualizaciones al repositorio | `github:push_files` |
+| Visualizaciones médicas e imágenes clínicas | `nano-banana:generate_medical_image` |
+| Gráficos de riesgo cardiovascular | `nano-banana:create_risk_chart` |
+| Narración de hallazgos clínicos (demos, presentaciones) | `inworld-tts:generate_speech` |
+
+### ⚠️ Delegar a Deepseek CON revisión de Claude
+
+| Tarea | Razón de revisión |
+|-------|------------------|
+| Ingeniería de features | Claude valida pertinencia clínica de cada feature |
+| Selección de hiperparámetros | Claude aprueba que los rangos tienen lógica médica |
+| Estructura del notebook | Claude revisa narrativa CRISP-DM |
+| Documentación técnica (README, docstrings masivos) | Claude verifica precisión clínica del lenguaje |
+| Debugging lógico ML (resultados inesperados sin error explícito) | Claude detecta data leakage o sesgos silenciosos |
+
+### 🔴 Exclusivo de Claude Sonnet — nunca delegar
+
+- Interpretación de métricas en contexto cardíaco (qué significa Recall 0.78 para un paciente real)
+- Decisión de qué algoritmo usar y justificación clínica
 - Redacción del reporte CRISP-DM final
 - Diseño de prompts para los agentes
-- Razonamiento sobre trade-offs (Precision vs Recall en cardiopatía)
+- Razonamiento sobre trade-offs Precision vs Recall en cardiopatía
+- Cualquier conclusión que conecte datos con decisión clínica
 - Explicaciones didácticas para el aprendizaje de Juan
 
 ---
 
-## Flujo de Trabajo para Fase 4 (Modelado)
+## 🔧 Protocolo de Escalación de Debugging
+
+> Principio: el paramédico intenta estabilizar, si no escala al médico, si no al especialista.
+
+| Nivel | Intentos | Acción | Condición |
+|-------|----------|--------|-----------|
+| **1** | 1–2 | Deepseek solo | Errores sintácticos, tipos, importaciones, stack traces obvios |
+| **2** | 3–4 | Deepseek + supervisión Claude | Claude orienta la dirección del fix, Deepseek ejecuta |
+| **3** | 5+ | Claude toma el control | Error persistente que requiere razonamiento arquitectural |
+| **⚡ Especial** | Inmediato | Claude interviene sin escalar | Data leakage, métricas infladas, errores en lógica médica, fix riesgoso para integridad del modelo |
+
+---
+
+## 🔬 Protocolo de Investigación y Literatura
+
+Para búsqueda web, procesamiento de papers, libros médicos o datasets:
+
+**Deepseek maneja todo el trabajo bruto:**
+- Búsqueda web de artículos, papers, libros
+- Extracción de texto de PDFs y documentos
+- Procesamiento masivo: frecuencia de términos, estructuración de datos crudos
+- Construcción de datasets desde múltiples fuentes
+- Resúmenes técnicos de secciones específicas
+
+**Claude interviene UNA SOLA VEZ al final** con validación clínica de 3 preguntas:
+1. ¿La fuente es confiable? (PubMed vs blog de bienestar)
+2. ¿El dato extraído tiene contexto clínico correcto? (umbrales que varían por edad/sexo/comorbilidades)
+3. ¿Hay contradicción entre fuentes? (Claude decide cuál prevalece por recencia, citación o aplicabilidad)
+
+> **Regla:** Deepseek procesa volumen. Claude valida pertinencia clínica. Una sola revisión al final, no en cada iteración.
+
+---
+
+## 🔄 Flujo de Trabajo — Fase 4 (Modelado)
 
 ```
-1. Claude diseña la estrategia del modelo [C]
-2. Deepseek genera el código sklearn [D]
-3. Juan ejecuta el código
-4. Si hay error → Deepseek debuggea [D]
-5. Claude interpreta los resultados clínicamente [C]
-6. Nano-banana visualiza las métricas [N]
-7. GitHub MCP commitea el notebook [G]
-8. Claude actualiza EXPERIMENT_LOG.md [C+G]
+1. [C] Claude diseña la estrategia del modelo y justificación clínica
+2. [D] Deepseek genera el código sklearn completo
+3. [👤] Juan ejecuta el código
+4. [D→C] Si hay error → Deepseek debuggea (protocolo de escalación)
+5. [C] Claude interpreta los resultados clínicamente
+6. [N] Nano-banana visualiza las métricas
+7. [G] GitHub MCP commitea el notebook
+8. [C+G] Claude actualiza EXPERIMENT_LOG.md
 ```
 
 ---
 
-## Contexto del Proyecto
+## 📁 Contexto del Proyecto
 
-- **Proyecto:** CardioRisk — Sistema de clasificación de riesgo cardiovascular
-- **Metodología:** CRISP-DM
-- **Estado actual:** Fases 1-3 completas, iniciando Fase 4 (Modelado)
-- **Stack:** Python, sklearn, pandas, GitHub Pages
-- **Dataset:** Cleveland Heart Disease Dataset (UCI)
-- **Métrica prioritaria:** Recall (minimizar falsos negativos en cardiopatía)
-- **Alumno:** Juan — médico de urgencias en transición a data science
-- **Plan Claude:** Pro ($20/mes) — tokens limitados, usar con criterio
+| Campo | Valor |
+|-------|-------|
+| **Proyecto** | CardioRisk — Clasificación de riesgo cardiovascular |
+| **Metodología** | CRISP-DM |
+| **Estado** | Fases 1–3 completas, iniciando Fase 4 (Modelado) |
+| **Stack** | Python, sklearn, pandas, GitHub Pages |
+| **Dataset** | Cleveland Heart Disease Dataset (UCI) |
+| **Métrica prioritaria** | Recall — minimizar falsos negativos en cardiopatía |
+| **Alumno** | Juan — médico de urgencias en transición a data science |
+| **Plan Claude** | Pro ($20/mes) — tokens limitados, usar con criterio |
 
----
-
-## Hardware Disponible
-
-- CPU: Ryzen 9 7950X3D
-- RAM: 32GB
-- GPU: RTX 4070 12GB VRAM
-- OS: Windows 11
-- Deepseek local: deepseek-coder-v2:16b-lite-instruct-q4_K_M (Ollama)
+### Hardware
+- CPU: Ryzen 9 7950X3D | RAM: 32GB | GPU: RTX 4070 12GB VRAM | OS: Windows 11
+- Deepseek local: `deepseek-coder-v2:16b-lite-instruct-q4_K_M` (Ollama)
 
 ---
 
-## Registro de Eficiencia
+## 📊 Registro de Eficiencia
 
 Cada sesión debe actualizarse en `EXPERIMENT_LOG.md` con:
-- Tareas ejecutadas por cada agente
+- Tareas ejecutadas por cada agente `[C]`, `[D]`, `[N]`, `[T]`, `[G]`, `[W]`
 - Tokens Claude estimados consumidos
 - Tokens estimados sin ecosistema
 - Decisiones técnicas relevantes
+- Pendientes para la siguiente sesión
 
-*Versión: 1.0 | Actualizado: 2026-03-11*
+---
+
+*Versión: 1.1 | Actualizado: 2026-03-11 | Ecosistema: Hipócrates MCP v1.0*
