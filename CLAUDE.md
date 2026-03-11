@@ -79,6 +79,18 @@ Esto elimina tokens de contexto innecesarios en cada sesión.
 
 ---
 
+## 🚨 Protocolo de Fallo de Agente
+
+> Surgido en sesión 2026-03-11: GitHub MCP no cargó tools en sesión activa por conflicto OAuth/local.
+
+1. Si una herramienta falla en el primer intento, Claude DEBE usar `tool_search` para recargarla antes de asumir la tarea
+2. Claude NUNCA asume tareas delegables por fallo técnico — bajo ninguna circunstancia
+3. Si después de 2 reintentos el agente no responde, Claude notifica a Juan con el error exacto y espera instrucciones
+4. Claude NO ejecuta silenciosamente tareas que corresponden a otros agentes
+5. Aplica a TODOS los agentes: Deepseek, Nano-banana, Inworld TTS, GitHub MCP
+
+---
+
 ## 🔬 Protocolo de Investigación y Literatura
 
 Para búsqueda web, procesamiento de papers, libros médicos o datasets:
@@ -144,4 +156,5 @@ Cada sesión debe actualizarse en `EXPERIMENT_LOG.md` con:
 
 ---
 
-*Versión: 1.1 | Actualizado: 2026-03-11 | Ecosistema: Hipócrates MCP v1.0*
+*Versión: 1.2 | Actualizado: 2026-03-11 | Ecosistema: Hipócrates MCP v1.0*
+*Cambio v1.2: Protocolo de Fallo de Agente añadido (surgido en sesión de debugging GitHub MCP)*
