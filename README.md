@@ -3,7 +3,7 @@
 
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
 [![IBM Certificate](https://img.shields.io/badge/IBM-Data%20Science%20Professional%20Certificate-054ada.svg)](https://www.coursera.org/professional-certificates/ibm-data-science)
-[![Status](https://img.shields.io/badge/Status-Actively%20Building-brightgreen.svg)]()
+[![Status](https://img.shields.io/badge/Status-Completed%20%E2%80%94%20CardioRisk%20%E2%9C%93-brightgreen.svg)]()
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-juanjararhad-0077B5.svg)](https://www.linkedin.com/in/juanjararhad/)
 [![Domain](https://img.shields.io/badge/Domain-Health%20Data%20Science-red.svg)]()
 
@@ -31,22 +31,23 @@ A production-grade cardiovascular risk stratification system built to clinical s
 
 | Phase | Notebook | Status | Key Deliverable |
 |---|---|---|---|
-| 📋 Business Understanding | [Fase 1 ↗](https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/Fase1_Business_Understanding.ipynb) | ✅ Complete | EWS strategy · stakeholder analysis · ROI $8.2M |
-| 🔍 Data Understanding | [Fase 2 ↗](https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/Fase2_Data_Understanding.ipynb) | ✅ Complete | EDA · Spearman heatmap (D3.js) · feature ranking |
-| 🛠️ Data Preparation | Fase 3 | 🔄 In Progress | Feature engineering · class imbalance handling |
-| 🤖 Modeling | Fase 4 | 📋 Planned | Random Forest / XGBoost · SHAP explainability |
-| 📊 Evaluation | Fase 5 | 📋 Planned | Clinical validation · Recall > 80% · AUC-ROC > 0.85 |
-| 🚀 Deployment | Fase 6 | 📋 Planned | HL7/FHIR integration · real-time EWS scoring |
+| 📋 Business Understanding | [Fase 1 ↗](https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/cardiorisk/Fase1_Business_Understanding.ipynb) | ✅ Complete | EWS strategy · stakeholder analysis · ROI $8.2M |
+| 🔍 Data Understanding | [Fase 2 ↗](https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/cardiorisk/Fase2_Data_Understanding.ipynb) | ✅ Complete | EDA · Spearman heatmap (D3.js) · feature ranking |
+| 🛠️ Data Preparation | [Fase 3 ↗](https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/cardiorisk/Fase3_Data_Preparation.ipynb) | ✅ Complete | Feature engineering (slope_x_oldpeak, log_oldpeak, vessels_bin) · 18 features · SMOTE |
+| 🤖 Modeling | [Fase 4 ↗](https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/cardiorisk/Fase4_Modeling.ipynb) | ✅ Complete | GradientBoosting ganador · Recall=1.000 · AUC=0.997 · GridSearchCV 5-fold |
+| 📊 Evaluation | [Fase 5 ↗](https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/cardiorisk/Fase5_Evaluation.ipynb) | ✅ Complete | Test set sellado · Recall=1.000 · AUC=0.9996 · FN=0 · SHAP top predictor: slope |
+| 🚀 Deployment | [Fase 6 ↗](https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/cardiorisk/Fase6_Deployment.ipynb) | ✅ Complete | EWS deployable · 3 niveles (Bajo/Medio/Alto) · umbrales p<0.30/0.65 · artefactos joblib |
 
-**Dataset:** [Cardiovascular Disease — Kaggle](https://www.kaggle.com/datasets/jocelyndumlao/cardiovascular-disease-dataset) · 1,000 clinical records · 13 variables
+**Dataset:** [Cardiovascular Disease — Kaggle](https://www.kaggle.com/datasets/jocelyndumlao/cardiovascular-disease-dataset) · 1,000 clinical records · **18 features** (11 original + 3 engineered + 4 OHE)
 
-**Key findings (Fase 2):**
+**Key findings:**
 - `slope` (ST segment pendiente) confirmed as primary predictor — validated by 6 SHAP studies 2023–2026
 - ECG trio `slope + oldpeak + exerciseangia` provides strongest class separation
 - **11.3% of women** present ischemic risk with no classic symptoms → gender-specific thresholds required in Fase 3
 - Business case: ~$504K/year per institution · $8.2M across 16 institutions at 20% mortality reduction
+- Gradient Boosting logró **Recall=1.000** en test set sellado (0 falsos negativos)
 
-👉 **[Master Index — Full Project Navigation](https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/Master_Index.ipynb)**
+👉 **[Master Index — Full Project Navigation](https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/cardiorisk/Master_Index.ipynb)**
 
 ---
 
@@ -110,12 +111,18 @@ Applied data cleaning, EDA and statistical analysis to identify no-show predicto
 
 ```
 ibm-data-science-portfolio/
-├── proyecto_medico/                        # Main CRISP-DM project — cardiovascular EWS
-│   ├── Master_Index.ipynb                  # Navigation hub for all phases
-│   ├── Fase1_Business_Understanding.ipynb  # ✅ Complete
-│   └── Fase2_Data_Understanding.ipynb      # ✅ Complete
+├── proyecto_medico/
+│   └── cardiorisk/                         # CardioRisk — Cardiovascular EWS (CRISP-DM completo)
+│       ├── Fase1_Business_Understanding.ipynb  # ✅ Complete
+│       ├── Fase2_Data_Understanding.ipynb      # ✅ Complete
+│       ├── Fase3_Data_Preparation.ipynb        # ✅ Complete | 18 features (3 engineered)
+│       ├── Fase4_Modeling.ipynb                # ✅ Complete | GradientBoosting Recall=1.0
+│       ├── Fase5_Evaluation.ipynb              # ✅ Complete | AUC-ROC=0.9996, FN=0
+│       ├── Fase6_Deployment.ipynb              # ✅ Complete | EWS deployable
+│       ├── Master_Index.ipynb                  # Navigation hub
+│       └── README.md                           # Project documentation
 └── LABS/
-    └── course-1-medical-appointments/      # No-show prediction (110K records) ✅
+    └── course-1-medical-appointments/          # No-show prediction (110K records) ✅
 ```
 
 ---
@@ -128,9 +135,3 @@ ibm-data-science-portfolio/
 
 > *"After 13 years at the bedside, the highest-leverage decision I could make was to scale clinical insight through data."*
   *Life at the service of life*
-
-
-
-
-
-
