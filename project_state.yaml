@@ -1,0 +1,129 @@
+# project_state.yaml
+# Estado persistente del proyecto Hipócrates MCP / CardioRisk
+# Actualizar al final de cada sesión o checkpoint
+
+metadata:
+  project_name: "Hipócrates MCP / CardioRisk"
+  methodology: "CRISP-DM"
+  current_phase: 4
+  phase_name: "Modelado"
+  start_date: "2026-01-15"
+  last_updated: "2026-03-11"
+  github_repo: "juanjararPYBM/ibm-data-science-portfolio"
+
+dataset:
+  name: "Cleveland Heart Disease UCI"
+  source: "UCI Machine Learning Repository"
+  samples: 303
+  features: 13
+  features_list:
+    - age
+    - sex
+    - cp
+    - trestbps
+    - chol
+    - fbs
+    - restecg
+    - thalach
+    - exang
+    - oldpeak
+    - slope
+    - ca
+    - thal
+  target: num
+  binarized: true
+  binarization_rule: "0 → 0 (no enfermedad) | 1-4 → 1 (enfermedad cardíaca)"
+  positive_class: 1
+  negative_class: 0
+  class_distribution:
+    negative: 164
+    positive: 139
+    imbalance_ratio: 1.18  # levemente desbalanceado, no crítico
+  notes:
+    - "features 'ca' y 'thal' contienen valores '?' que requieren imputación"
+    - "todas las features son numéricas en la versión procesada"
+
+feature_engineering:
+  phases_completed: [1, 2, 3]
+  transformations_applied:
+    - "Binarización de target (0 vs 1-4)"
+    - "Verificación de valores nulos"
+    - "Análisis exploratorio de distribuciones por clase"
+    - "Identificación de features clínicamente relevantes"
+  features_alta_relevancia_clinica:
+    - cp       # tipo de dolor torácico — altamente predictivo
+    - thalach  # frecuencia cardíaca máxima
+    - exang    # angina inducida por ejercicio
+    - oldpeak  # depresión ST — marcador de isquemia
+    - ca       # vasos coronarios obstruidos
+    - thal     # tipo de thalassemia
+
+experiments:
+  completed: []
+  planned:
+    - id: EXP001
+      model: "Logistic Regression"
+      notes: "baseline con class_weight='balanced'"
+      priority: 1
+    - id: EXP002
+      model: "Random Forest"
+      notes: "optimización de n_estimators y max_depth"
+      priority: 2
+    - id: EXP003
+      model: "XGBoost"
+      notes: "scale_pos_weight para manejo de desbalance"
+      priority: 3
+    - id: EXP004
+      model: "Ensemble"
+      notes: "VotingClassifier con mejores modelos anteriores"
+      priority: 4
+  current_experiment: null
+
+model:
+  current: null
+  best:
+    name: null
+    recall: null
+    precision: null
+    f1: null
+    path: null
+  persistence_format: joblib
+  save_path: "./models/"
+
+metrics:
+  primary: recall
+  secondary: [precision, f1, accuracy]
+  thresholds:
+    recall_minimo_aceptable: 0.85
+    recall_objetivo: 0.90
+    precision_minimo: 0.70
+    f1_minimo: 0.80
+  validation:
+    method: train_test_split
+    test_size: 0.20
+    random_state: 42
+    stratify: true
+
+token_management:
+  sesion_actual:
+    tokens_claude_estimados: 0
+    tokens_delegados: 0
+    ahorro_estimado_pct: 0
+  acumulado:
+    total_tokens_claude: 14600  # sesiones 001+002
+    total_sin_ecosistema: 16800
+    ahorro_total_pct: 13
+  checkpoint_actual: 0
+  proximo_checkpoint_en_ciclo: 4
+
+next_actions:
+  inmediata: "Iniciar EXP001 — Logistic Regression baseline"
+  corto_plazo: "Completar EXP001-EXP003 y comparar métricas"
+  medio_plazo: "Ensemble de mejores modelos + notebook final CRISP-DM"
+
+notes: |
+  - Dataset pequeño (303 muestras) → riesgo de overfitting, usar CV estratificado
+  - Clases levemente desbalanceadas (164 vs 139) → usar class_weight='balanced'
+  - Recall es crítico: un falso negativo = paciente cardíaco sin diagnóstico
+  - features 'ca' y 'thal' tienen '?' → imputar antes de modelar
+  - Deepseek genera código sklearn, Claude verifica checklist pre-ejecución
