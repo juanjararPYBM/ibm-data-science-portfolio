@@ -76,14 +76,69 @@
 
 ---
 
+### Sesión 002 — 2026-03-11
+**Fase CRISP-DM:** Infraestructura / Pre-fase 4 (continuación)  
+**Duración estimada:** ~1 hora
+
+#### Tareas ejecutadas
+
+| # | Tarea | Agente | Tokens Claude | Tokens sin ecosistema |
+|---|-------|--------|---------------|-----------------------|
+| 1 | Commit CLAUDE.md v1.2 vía GitHub MCP | `[G]` | ~800 | ~800 |
+| 2 | Debugging GitHub MCP no cargaba tools (tool_search x2) | `[C]` | ~600 | ~600 |
+| 3 | Reinicio Claude Desktop para recargar servidores MCP | `[👤]` | 0 | 0 |
+| 4 | Actualización EXPERIMENT_LOG.md sesión 002 | `[G]` | ~400 | ~400 |
+
+**Total tokens Claude esta sesión:** ~1,800  
+**Total estimado sin ecosistema:** ~1,800  
+**Ahorro esta sesión:** ~0% (tarea administrativa, no delegable)
+
+#### 🐛 Bug Report — Confusión Claude Desktop vs claude.ai
+
+**Descripción del problema:**  
+Durante esta sesión, Claude confundió reiteradamente el entorno de ejecución. Cuando GitHub MCP no cargó sus tools en `tool_search`, Claude asumió que el problema era que "no estábamos en Claude Desktop" y propuso soluciones para claude.ai (scripts PowerShell manuales, tokens de API, etc.) — cuando en realidad **la sesión siempre fue en Claude Desktop**.
+
+**Patrón observado:**
+1. GitHub MCP no devuelve tools en `tool_search`
+2. Claude concluye erróneamente → "el MCP de GitHub no está disponible en este entorno (claude.ai)"
+3. Claude propone workarounds para claude.ai en vez de diagnosticar correctamente el problema real (servidor no cargado en sesión activa)
+4. Juan debe corregir explícitamente: "ESTAMOS EN CLAUDE DESKTOP"
+5. Solución real: reiniciar Claude Desktop → MCP recarga → problema resuelto
+
+**Causa raíz probable:**  
+Claude no tiene acceso a una señal inequívoca de en qué interfaz está corriendo. Cuando `tool_search` no devuelve las tools esperadas, Claude infiere el entorno equivocado en lugar de diagnosticar el estado del servidor MCP.
+
+**Impacto:**  
+- Tokens desperdiciados en explicaciones incorrectas
+- Frustración del usuario al tener que corregir el mismo error múltiples veces
+- Propuestas de solución erróneas (reinstalar MCP local, crear tokens, scripts manuales)
+
+**Solución aplicada (workaround del usuario):**  
+Reiniciar completamente Claude Desktop → todos los servidores MCP se recargan → GitHub tools disponibles.
+
+**Recomendación para el equipo de Anthropic:**  
+Claude debería, ante la ausencia de tools MCP esperadas, diagnosticar primero el estado del servidor (¿reiniciar la app?) antes de inferir que el entorno es diferente al declarado por el usuario. Si el usuario dice explícitamente "estamos en Claude Desktop", esa declaración debe tener prioridad absoluta sobre cualquier inferencia basada en tools disponibles.
+
+#### Decisiones técnicas tomadas
+- CLAUDE.md v1.2 confirmado como fuente de verdad del ecosistema
+- Protocolo de Fallo de Agente ahora documentado en CLAUDE.md
+- GitHub MCP OAuth oficial confirmado como suficiente (no necesita servidor local)
+
+#### Pendientes técnicos
+- [ ] Migrar nginx a nombres de servicio Docker DNS
+- [ ] **Iniciar Fase 4 — Modelado CardioRisk** ← PRÓXIMO PASO
+- [ ] Primera delegación real a Deepseek: código sklearn baseline
+
+---
+
 ## 📈 Resumen Acumulado
 
 | Métrica | Valor |
 |---------|-------|
-| Sesiones registradas | 1 |
-| Tokens Claude totales (estimado) | ~12,800 |
-| Tokens sin ecosistema (estimado) | ~15,000 |
-| Ahorro acumulado | ~15% |
+| Sesiones registradas | 2 |
+| Tokens Claude totales (estimado) | ~14,600 |
+| Tokens sin ecosistema (estimado) | ~16,800 |
+| Ahorro acumulado | ~13% |
 | Tareas delegadas a Deepseek | 0 (ecosistema aún en construcción) |
 | Fases CRISP-DM completadas | 1-3 (pre-ecosistema) |
 | Fases CRISP-DM en progreso | 4 |
