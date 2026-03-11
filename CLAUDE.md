@@ -78,6 +78,10 @@ Claude DEBE verificar este checklist en TODO código sklearn antes de que Juan l
 - [ ] **Reproducibilidad** — `random_state=42` en todo
 - [ ] **Balance de clases** — SMOTE ya aplicado en train; no aplicar `class_weight='balanced'` doble
 - [ ] **Carga de datos** — usar `kagglehub.dataset_download("jocelyndumlao/cardiovascular-disease-dataset")`
+- [ ] **Consistencia entre fases** — EWS umbrales en F6 coinciden con los definidos en F1 (EWS_BAJO=0.30, EWS_MEDIO=0.65)
+- [ ] **Nombres de niveles** — usar "Bajo Riesgo / Riesgo Medio / Alto Riesgo" (no BAJO/MODERADO/ALTO)
+- [ ] **KPIs completos** — verificar los 3 KPIs de F1: Recall>0.80, AUC-ROC>0.85, Error tipo II<5%
+- [ ] **patientid excluido** — siempre en feature_cols: `c not in [TARGET, 'patientid']`
 
 > Si algún punto falla → Deepseek corrige. Claude NO ejecuta correcciones de código.
 
@@ -130,19 +134,41 @@ Claude DEBE verificar este checklist en TODO código sklearn antes de que Juan l
 
 ---
 
-## 🔄 Flujo de Trabajo — Fase 4 (Modelado)
+## 🔄 Flujo de Trabajo — Regla Estricta de Delegación
+
+> **Lección aprendida (2026-03-11):** Claude ejecutó directamente correcciones de código que debieron pasar por Deepseek. Esto viola el principio de economía de tokens y el flujo acordado.
+
+### ❌ Claude NO debe NUNCA:
+- Generar código Python directamente en su respuesta
+- Commitear código que él mismo generó sin revisión de Deepseek
+- Ejecutar correcciones de notebooks sin pasar por el flujo delegado
+- Usar `github:create_or_update_file` con código generado por Claude mismo
+
+### ✅ Flujo obligatorio para cualquier corrección de código o notebook:
 
 ```
-1. [C]    Claude diseña estrategia del modelo y justificación clínica
-2. [D]    Deepseek genera código sklearn completo
-3. [C]    Claude aplica checklist pre-ejecución
-4. [👤]   Juan ejecuta el código en Google Colab (F4)
-5. [D→C]  Error → protocolo de escalación de debugging
-6. [C]    Claude interpreta resultados clínicamente
-7. [N]    Nano-banana visualiza métricas
-8. [G]    GitHub MCP commitea notebook
-9. [C+G]  Claude actualiza EXPERIMENT_LOG.md y project_state.yaml
+1. [C]   Claude analiza el problema y redacta la SPEC exacta
+         (qué cambiar, por qué, invariantes que no tocar)
+2. [D]   Deepseek genera el contenido completo según la spec
+3. [C]   Claude revisa lo que generó Deepseek (checklist pre-ejecución)
+4. [C]   Claude aprueba o pide corrección a Deepseek
+5. [G]   GitHub MCP commitea el contenido aprobado
+6. [👤]  Juan ejecuta/valida en Colab
 ```
+
+### ✅ Flujo para análisis e incongruencias (como F1 vs F6):
+
+```
+1. [👤]  Juan detecta o Claude detecta una incongruencia
+2. [C]   Claude analiza TODAS las fases afectadas y lista los cambios exactos
+3. [C]   Claude escribe spec detallada para Deepseek
+4. [D]   Deepseek genera el contenido corregido
+5. [C]   Claude revisa consistencia clínica y técnica
+6. [G]   GitHub MCP commitea
+```
+
+### Señal de alerta:
+Si Claude empieza a escribir código Python en su respuesta → STOP. Debe reformular como spec para Deepseek.
 
 ---
 
@@ -152,7 +178,7 @@ Claude DEBE verificar este checklist en TODO código sklearn antes de que Juan l
 |-------|-------|
 | **Proyecto** | CardioRisk — Clasificación de riesgo cardiovascular |
 | **Metodología** | CRISP-DM |
-| **Estado** | Fases 1–3 completas, iniciando Fase 4 (Modelado) |
+| **Estado** | Fases 1–6 completas ✓ \| Proyecto CardioRisk TERMINADO |
 | **Stack** | Python, sklearn, pandas, Google Colab, GitHub Pages |
 | **Dataset** | `jocelyndumlao/cardiovascular-disease-dataset` (KaggleHub) |
 | **Métrica prioritaria** | Recall ≥ 0.85 — minimizar falsos negativos en cardiopatía |
@@ -165,5 +191,6 @@ Claude DEBE verificar este checklist en TODO código sklearn antes de que Juan l
 
 ---
 
-*Versión: 1.4 | Actualizado: 2026-03-11 | Ecosistema: Hipócrates MCP v1.0*
+*Versión: 1.5 | Actualizado: 2026-03-11 | Ecosistema: Hipócrates MCP v1.0*
 *Cambio v1.4: Dataset corregido a jocelyndumlao (1000 muestras, 14 features). Columnas reales extraídas de Fase2/Fase3. Checklist actualizado con carga via kagglehub y SMOTE.*
+*Cambio v1.5: Reglas de flujo de trabajo reforzadas. Claude NO genera código ni contenido directamente. Sección §Flujo de Trabajo actualizada a Fases 1-6 completas.*
