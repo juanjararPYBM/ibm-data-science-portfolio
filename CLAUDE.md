@@ -19,7 +19,7 @@ Antes de generar cualquier código, script, documento o búsqueda, Claude evalú
 Al iniciar cada sesión, Claude DEBE:
 1. Leer este archivo vía GitHub MCP para auto-contextualizarse
 2. Leer `project_state.yaml` para conocer el estado actual del experimento
-3. No pedir a Juan que explique el estado del proyecto
+3. No pedir a Juan que explique el estado del proyecto ni el dataset
 4. Confirmar qué agentes están disponibles antes de comenzar
 
 ---
@@ -73,10 +73,11 @@ Claude DEBE verificar este checklist en TODO código sklearn antes de que Juan l
 - [ ] **Sin data leakage** — `.fit()` solo en train, `.transform()` separado en test
 - [ ] **Métrica principal** — se optimiza Recall, no Accuracy
 - [ ] **Split estratificado** — `train_test_split` usa `stratify=y`
-- [ ] **Columnas válidas** — columnas existen en Cleveland (13 features)
+- [ ] **Columnas válidas** — deben existir en FEATURES_FINALES (ver project_state.yaml §dataset.features_finales)
 - [ ] **Persistencia** — modelo guardado con `joblib`
 - [ ] **Reproducibilidad** — `random_state=42` en todo
-- [ ] **Balance de clases** — `class_weight='balanced'` o técnica equivalente
+- [ ] **Balance de clases** — SMOTE ya aplicado en train; no aplicar `class_weight='balanced'` doble
+- [ ] **Carga de datos** — usar `kagglehub.dataset_download("jocelyndumlao/cardiovascular-disease-dataset")`
 
 > Si algún punto falla → Deepseek corrige. Claude NO ejecuta correcciones de código.
 
@@ -135,7 +136,7 @@ Claude DEBE verificar este checklist en TODO código sklearn antes de que Juan l
 1. [C]    Claude diseña estrategia del modelo y justificación clínica
 2. [D]    Deepseek genera código sklearn completo
 3. [C]    Claude aplica checklist pre-ejecución
-4. [👤]   Juan ejecuta el código
+4. [👤]   Juan ejecuta el código en Google Colab (F4)
 5. [D→C]  Error → protocolo de escalación de debugging
 6. [C]    Claude interpreta resultados clínicamente
 7. [N]    Nano-banana visualiza métricas
@@ -152,8 +153,8 @@ Claude DEBE verificar este checklist en TODO código sklearn antes de que Juan l
 | **Proyecto** | CardioRisk — Clasificación de riesgo cardiovascular |
 | **Metodología** | CRISP-DM |
 | **Estado** | Fases 1–3 completas, iniciando Fase 4 (Modelado) |
-| **Stack** | Python, sklearn, pandas, GitHub Pages |
-| **Dataset** | Cleveland Heart Disease Dataset (UCI) |
+| **Stack** | Python, sklearn, pandas, Google Colab, GitHub Pages |
+| **Dataset** | `jocelyndumlao/cardiovascular-disease-dataset` (KaggleHub) |
 | **Métrica prioritaria** | Recall ≥ 0.85 — minimizar falsos negativos en cardiopatía |
 | **Alumno** | Juan — médico de urgencias en transición a data science |
 | **Plan Claude** | Pro ($20/mes) — tokens limitados, usar con criterio |
@@ -164,5 +165,5 @@ Claude DEBE verificar este checklist en TODO código sklearn antes de que Juan l
 
 ---
 
-*Versión: 1.3 | Actualizado: 2026-03-11 | Ecosistema: Hipócrates MCP v1.0*
-*Cambio v1.3: Checklist pre-ejecución + Protocolo de Gestión de Tokens + refs TOKEN_MANAGEMENT.md y project_state.yaml*
+*Versión: 1.4 | Actualizado: 2026-03-11 | Ecosistema: Hipócrates MCP v1.0*
+*Cambio v1.4: Dataset corregido a jocelyndumlao (1000 muestras, 14 features). Columnas reales extraídas de Fase2/Fase3. Checklist actualizado con carga via kagglehub y SMOTE.*

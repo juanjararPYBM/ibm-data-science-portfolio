@@ -1,6 +1,7 @@
 # project_state.yaml
 # Estado persistente del proyecto Hipócrates MCP / CardioRisk
 # Actualizar al final de cada sesión o checkpoint
+# v2 — Dataset corregido: jocelyndumlao/cardiovascular-disease-dataset
 
 metadata:
   project_name: "Hipócrates MCP / CardioRisk"
@@ -10,60 +11,91 @@ metadata:
   start_date: "2026-01-15"
   last_updated: "2026-03-11"
   github_repo: "juanjararPYBM/ibm-data-science-portfolio"
+  colab_base: "https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico"
 
 dataset:
-  name: "Cleveland Heart Disease UCI"
-  source: "UCI Machine Learning Repository"
-  samples: 303
-  features: 13
-  features_list:
-    - age
-    - sex
-    - cp
-    - trestbps
-    - chol
-    - fbs
-    - restecg
-    - thalach
-    - exang
-    - oldpeak
-    - slope
-    - ca
-    - thal
-  target: num
-  binarized: true
-  binarization_rule: "0 → 0 (no enfermedad) | 1-4 → 1 (enfermedad cardíaca)"
-  positive_class: 1
-  negative_class: 0
-  class_distribution:
-    negative: 164
-    positive: 139
-    imbalance_ratio: 1.18  # levemente desbalanceado, no crítico
-  notes:
-    - "features 'ca' y 'thal' contienen valores '?' que requieren imputación"
-    - "todas las features son numéricas en la versión procesada"
+  name: "Cardiovascular Disease Dataset"
+  author: "jocelyndumlao"
+  kaggle_id: "jocelyndumlao/cardiovascular-disease-dataset"
+  kaggle_url: "https://www.kaggle.com/datasets/jocelyndumlao/cardiovascular-disease-dataset"
+  carga_codigo: |
+    import kagglehub, os, glob
+    path = kagglehub.dataset_download("jocelyndumlao/cardiovascular-disease-dataset")
+    csv_files = glob.glob(os.path.join(path, "**", "*.csv"), recursive=True)
+    df = pd.read_csv(csv_files[0])
+    df.columns = [c.strip().replace(' ', '_') for c in df.columns]
+  samples: 1000
+  features_originales: 14
+  columnas_raw:
+    - patientid        # identificador — excluir del modelo
+    - age              # edad del paciente
+    - gender           # género (0=mujer, 1=hombre)
+    - chestpain        # tipo de dolor torácico (0-3) — categórica → OHE
+    - restingBP        # presión arterial en reposo (mmHg)
+    - serumcholestrol  # colesterol sérico (mg/dl)
+    - fastingbloodsugar  # glucosa en ayunas > 120 mg/dl (0/1)
+    - restingrelectro  # ECG en reposo (0/1/2)
+    - maxheartrate     # frecuencia cardíaca máxima alcanzada
+    - exerciseangia    # angina inducida por ejercicio (0/1)
+    - oldpeak          # depresión del segmento ST — marcador de isquemia
+    - slope            # pendiente del segmento ST (0/1/2)
+    - noofmajorvessels # número de vasos coronarios principales (0-3)
+    - target           # 0=sin enfermedad, 1=enfermedad cardiovascular
+  normalizacion_columnas:
+    # resolver_columnas() normaliza case-insensitive a nombres canónicos
+    restingBP: "restingBP"  # puede llegar como RestingBP, restingbp, etc.
+  target: target
+  positive_class: 1  # 1 = enfermedad cardiovascular (riesgo)
+  negative_class: 0  # 0 = sin enfermedad (sano)
 
 feature_engineering:
-  phases_completed: [1, 2, 3]
-  transformations_applied:
-    - "Binarización de target (0 vs 1-4)"
-    - "Verificación de valores nulos"
-    - "Análisis exploratorio de distribuciones por clase"
-    - "Identificación de features clínicamente relevantes"
-  features_alta_relevancia_clinica:
-    - cp       # tipo de dolor torácico — altamente predictivo
-    - thalach  # frecuencia cardíaca máxima
-    - exang    # angina inducida por ejercicio
-    - oldpeak  # depresión ST — marcador de isquemia
-    - ca       # vasos coronarios obstruidos
-    - thal     # tipo de thalassemia
+  # Aplicado en Fase 3 — df_feat
+  nuevas_features:
+    slope_x_oldpeak: "slope * oldpeak  — interacción isquémica"
+    log_oldpeak: "log(oldpeak + 1)  — normalizar distribución sesgada"
+    vessels_bin: "(noofmajorvessels >= 2).astype(int)  — umbral clínico enfermedad multivaso"
+  encoding:
+    chestpain: "One-Hot Encoding (pd.get_dummies, drop_first=False) → 4 columnas binarias"
+  excluidos:
+    - patientid       # identificador, no predictivo
+    - gender_label    # string derivado de gender
+    - age_group       # string derivado de age
+    - chestpain       # reemplazado por columnas OHE
+
+dataset_preparado:
+  # Resultado de Fase 3 — artefactos exportados via %store a Fase 4
+  features_finales: 16
+  # Lista exacta de FEATURES_FINALES (post OHE + feature engineering):
+  # age, gender, restingBP, serumcholestrol, fastingbloodsugar, restingrelectro,
+  # maxheartrate, exerciseangia, oldpeak, slope, noofmajorvessels,
+  # slope_x_oldpeak, log_oldpeak, vessels_bin,
+  # chestpain_0, chestpain_1, chestpain_2, chestpain_3
+  # (número exacto de columnas OHE depende de valores presentes en el dataset)
+  splits:
+    train: "70% — con SMOTE aplicado (X_train_sm, y_train_sm)"
+    val:   "15% — sin SMOTE (X_val_sc, y_val)"
+    test:  "15% — sellado hasta Fase 5 (X_test_sc, y_test)"
+  scaling: "StandardScaler(μ=0, σ=1) — fit solo en train"
+  smote: "SMOTE(random_state=42) — solo sobre X_train_sc"
+  random_state: 42
+  stratify: true
+  artefactos_store:
+    - X_train_sm
+    - y_train_sm
+    - X_val_sc
+    - y_val
+    - X_test_sc
+    - y_test
+    - scaler
+    - FEATURES_FINALES
+    - df_feat
 
 experiments:
   completed: []
   planned:
     - id: EXP001
       model: "Logistic Regression"
-      notes: "baseline con class_weight='balanced'"
+      notes: "baseline — recuperar artefactos %store de F3, sin aplicar SMOTE ni class_weight doble"
       priority: 1
     - id: EXP002
       model: "Random Forest"
@@ -99,8 +131,8 @@ metrics:
     precision_minimo: 0.70
     f1_minimo: 0.80
   validation:
-    method: train_test_split
-    test_size: 0.20
+    method: "train_val_test split (70/15/15)"
+    cv: "5-fold stratified sobre train"
     random_state: 42
     stratify: true
 
@@ -117,13 +149,19 @@ token_management:
   proximo_checkpoint_en_ciclo: 4
 
 next_actions:
-  inmediata: "Iniciar EXP001 — Logistic Regression baseline"
+  inmediata: "Iniciar EXP001 — Logistic Regression baseline con artefactos de Fase 3"
   corto_plazo: "Completar EXP001-EXP003 y comparar métricas"
   medio_plazo: "Ensemble de mejores modelos + notebook final CRISP-DM"
 
 notes: |
-  - Dataset pequeño (303 muestras) → riesgo de overfitting, usar CV estratificado
-  - Clases levemente desbalanceadas (164 vs 139) → usar class_weight='balanced'
-  - Recall es crítico: un falso negativo = paciente cardíaco sin diagnóstico
-  - features 'ca' y 'thal' tienen '?' → imputar antes de modelar
-  - Deepseek genera código sklearn, Claude verifica checklist pre-ejecución
+  CORRECCIÓN v2 (2026-03-11): Dataset es jocelyndumlao/cardiovascular-disease-dataset
+  (1000 muestras, 14 columnas), NO Cleveland UCI.
+  
+  Decisiones clave de Fase 3:
+  - SMOTE aplicado SOLO en train para balancear clases
+  - StandardScaler fit solo en train (sin data leakage)
+  - chestpain → OHE (4 categorías sin orden)
+  - 3 features engineered: slope_x_oldpeak, log_oldpeak, vessels_bin
+  - Test set sellado hasta Fase 5
+  
+  Para Fase 4: recuperar artefactos via %store o re-ejecutar Fase 3 en la misma sesión Colab
