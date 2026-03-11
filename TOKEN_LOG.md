@@ -42,6 +42,29 @@ Este archivo sirve como ledger manual para registrar el consumo de tokens por ta
 
 ---
 
+## ⚠️ TAREAS PENDIENTES DE SEGURIDAD
+
+### [PENDING] Rotación de API Keys — Post proyecto IBM
+**Prioridad:** Alta  
+**Trigger:** Al completar y entregar el proyecto IBM Data Science Professional Certificate  
+**Motivo:** Keys expuestas en historial de conversaciones de chat durante configuración del ecosistema  
+**Keys a rotar:**
+
+| Key | Dónde rotar | URL |
+|-----|------------|-----|
+| `GITHUB_TOKEN` | GitHub Settings | https://github.com/settings/tokens |
+| `DEEPSEEK_API_KEY` | DeepSeek Platform | https://platform.deepseek.com/api_keys |
+| `GOOGLE_API_KEY` | Google Cloud Console | https://console.cloud.google.com/apis/credentials |
+| `INWORLD_API_KEY` | Inworld Studio | https://studio.inworld.ai → Settings → API Keys |
+
+**Pasos post-rotación:**
+1. Actualizar `.env` local con nuevos valores
+2. Actualizar variables de entorno de Windows (Machine scope) para `GITHUB_TOKEN`
+3. Actualizar Bitwarden con los nuevos valores
+4. Verificar que `daily_close.py` sigue funcionando con el nuevo `GITHUB_TOKEN`
+
+---
+
 ## SESSION ACTIVA
 | timestamp | session_id | tarea_descripcion | tipo | agente | input_est | output_est | total_est | delegable | notas |
 |-----------|------------|-------------------|------|--------|-----------|------------|-----------|-----------|-------|
@@ -90,8 +113,7 @@ Este archivo sirve como ledger manual para registrar el consumo de tokens por ta
 ## REGLAS DE CIERRE CONTABLE
 
 ### Triggers de cierre
-1. **Manual:** Juan escribe "me voy a dormir" → Claude genera resumen → Deepseek commitea
-2. **Automático:** Hora fija diaria (pendiente definir con Juan) → mismo flujo
+1. **Automático:** 12:00am COT diario via Windows Task Scheduler → daily_close.py → commitea TOKEN_LOG.md
 
 ### Formato del resumen de cierre
 ```
