@@ -2,6 +2,7 @@
 
 > Este archivo es leído automáticamente por Claude Code y por Claude Desktop (vía GitHub MCP) al inicio de cada sesión.
 > Define cómo delegar trabajo entre agentes para maximizar eficiencia de tokens sin comprometer calidad.
+> **Archivos de soporte:** `TOKEN_MANAGEMENT.md` | `project_state.yaml` | `EXPERIMENT_LOG.md`
 
 ---
 
@@ -17,10 +18,9 @@ Antes de generar cualquier código, script, documento o búsqueda, Claude evalú
 
 Al iniciar cada sesión, Claude DEBE:
 1. Leer este archivo vía GitHub MCP para auto-contextualizarse
-2. No pedir a Juan que explique el estado del proyecto
-3. Confirmar qué agentes están disponibles antes de comenzar
-
-Esto elimina tokens de contexto innecesarios en cada sesión.
+2. Leer `project_state.yaml` para conocer el estado actual del experimento
+3. No pedir a Juan que explique el estado del proyecto
+4. Confirmar qué agentes están disponibles antes de comenzar
 
 ---
 
@@ -66,6 +66,22 @@ Esto elimina tokens de contexto innecesarios en cada sesión.
 
 ---
 
+## ✅ Checklist Pre-Ejecución — Verificación obligatoria de código Deepseek
+
+Claude DEBE verificar este checklist en TODO código sklearn antes de que Juan lo ejecute:
+
+- [ ] **Sin data leakage** — `.fit()` solo en train, `.transform()` separado en test
+- [ ] **Métrica principal** — se optimiza Recall, no Accuracy
+- [ ] **Split estratificado** — `train_test_split` usa `stratify=y`
+- [ ] **Columnas válidas** — columnas existen en Cleveland (13 features)
+- [ ] **Persistencia** — modelo guardado con `joblib`
+- [ ] **Reproducibilidad** — `random_state=42` en todo
+- [ ] **Balance de clases** — `class_weight='balanced'` o técnica equivalente
+
+> Si algún punto falla → Deepseek corrige. Claude NO ejecuta correcciones de código.
+
+---
+
 ## 🔧 Protocolo de Escalación de Debugging
 
 > Principio: el paramédico intenta estabilizar, si no escala al médico, si no al especialista.
@@ -75,53 +91,56 @@ Esto elimina tokens de contexto innecesarios en cada sesión.
 | **1** | 1–2 | Deepseek solo | Errores sintácticos, tipos, importaciones, stack traces obvios |
 | **2** | 3–4 | Deepseek + supervisión Claude | Claude orienta la dirección del fix, Deepseek ejecuta |
 | **3** | 5+ | Claude toma el control | Error persistente que requiere razonamiento arquitectural |
-| **⚡ Especial** | Inmediato | Claude interviene sin escalar | Data leakage, métricas infladas, errores en lógica médica, fix riesgoso para integridad del modelo |
+| **⚡ Especial** | Inmediato | Claude interviene sin escalar | Data leakage, métricas infladas, errores en lógica médica |
 
 ---
 
 ## 🚨 Protocolo de Fallo de Agente
 
-> Surgido en sesión 2026-03-11: GitHub MCP no cargó tools en sesión activa por conflicto OAuth/local.
+> Surgido en sesión 2026-03-11: GitHub MCP no cargó tools en sesión activa.
 
-1. Si una herramienta falla en el primer intento, Claude DEBE usar `tool_search` para recargarla antes de asumir la tarea
-2. Claude NUNCA asume tareas delegables por fallo técnico — bajo ninguna circunstancia
-3. Si después de 2 reintentos el agente no responde, Claude notifica a Juan con el error exacto y espera instrucciones
-4. Claude NO ejecuta silenciosamente tareas que corresponden a otros agentes
-5. Aplica a TODOS los agentes: Deepseek, Nano-banana, Inworld TTS, GitHub MCP
+1. Si una herramienta falla en el primer intento, Claude DEBE usar `tool_search` para recargarla
+2. Claude NUNCA asume tareas delegables por fallo técnico
+3. Si después de 2 reintentos el agente no responde → notificar a Juan con error exacto y esperar instrucciones
+4. Aplica a TODOS los agentes: Deepseek, Nano-banana, Inworld TTS, GitHub MCP
+
+---
+
+## 📊 Protocolo de Gestión de Tokens
+
+> Ver detalle completo en `TOKEN_MANAGEMENT.md`
+
+**Reglas críticas:**
+- Checkpoint obligatorio cada 4 ciclos (diseño→código→debug→commit)
+- Si Claude lleva >3 respuestas seguidas → señal `[C]×3` → revisar si se puede delegar
+- Contexto al 70% → aplicar template de resumen ejecutivo y abrir sesión nueva
+- Actualizar `project_state.yaml` al cierre de cada sesión o checkpoint
 
 ---
 
 ## 🔬 Protocolo de Investigación y Literatura
 
-Para búsqueda web, procesamiento de papers, libros médicos o datasets:
+**Deepseek maneja todo el trabajo bruto:** búsqueda web, extracción PDFs, resúmenes técnicos, datasets.
 
-**Deepseek maneja todo el trabajo bruto:**
-- Búsqueda web de artículos, papers, libros
-- Extracción de texto de PDFs y documentos
-- Procesamiento masivo: frecuencia de términos, estructuración de datos crudos
-- Construcción de datasets desde múltiples fuentes
-- Resúmenes técnicos de secciones específicas
-
-**Claude interviene UNA SOLA VEZ al final** con validación clínica de 3 preguntas:
-1. ¿La fuente es confiable? (PubMed vs blog de bienestar)
-2. ¿El dato extraído tiene contexto clínico correcto? (umbrales que varían por edad/sexo/comorbilidades)
-3. ¿Hay contradicción entre fuentes? (Claude decide cuál prevalece por recencia, citación o aplicabilidad)
-
-> **Regla:** Deepseek procesa volumen. Claude valida pertinencia clínica. Una sola revisión al final, no en cada iteración.
+**Claude interviene UNA SOLA VEZ al final** validando:
+1. ¿La fuente es confiable?
+2. ¿El dato tiene contexto clínico correcto?
+3. ¿Hay contradicción entre fuentes?
 
 ---
 
 ## 🔄 Flujo de Trabajo — Fase 4 (Modelado)
 
 ```
-1. [C] Claude diseña la estrategia del modelo y justificación clínica
-2. [D] Deepseek genera el código sklearn completo
-3. [👤] Juan ejecuta el código
-4. [D→C] Si hay error → Deepseek debuggea (protocolo de escalación)
-5. [C] Claude interpreta los resultados clínicamente
-6. [N] Nano-banana visualiza las métricas
-7. [G] GitHub MCP commitea el notebook
-8. [C+G] Claude actualiza EXPERIMENT_LOG.md
+1. [C]    Claude diseña estrategia del modelo y justificación clínica
+2. [D]    Deepseek genera código sklearn completo
+3. [C]    Claude aplica checklist pre-ejecución
+4. [👤]   Juan ejecuta el código
+5. [D→C]  Error → protocolo de escalación de debugging
+6. [C]    Claude interpreta resultados clínicamente
+7. [N]    Nano-banana visualiza métricas
+8. [G]    GitHub MCP commitea notebook
+9. [C+G]  Claude actualiza EXPERIMENT_LOG.md y project_state.yaml
 ```
 
 ---
@@ -135,7 +154,7 @@ Para búsqueda web, procesamiento de papers, libros médicos o datasets:
 | **Estado** | Fases 1–3 completas, iniciando Fase 4 (Modelado) |
 | **Stack** | Python, sklearn, pandas, GitHub Pages |
 | **Dataset** | Cleveland Heart Disease Dataset (UCI) |
-| **Métrica prioritaria** | Recall — minimizar falsos negativos en cardiopatía |
+| **Métrica prioritaria** | Recall ≥ 0.85 — minimizar falsos negativos en cardiopatía |
 | **Alumno** | Juan — médico de urgencias en transición a data science |
 | **Plan Claude** | Pro ($20/mes) — tokens limitados, usar con criterio |
 
@@ -145,16 +164,5 @@ Para búsqueda web, procesamiento de papers, libros médicos o datasets:
 
 ---
 
-## 📊 Registro de Eficiencia
-
-Cada sesión debe actualizarse en `EXPERIMENT_LOG.md` con:
-- Tareas ejecutadas por cada agente `[C]`, `[D]`, `[N]`, `[T]`, `[G]`, `[W]`
-- Tokens Claude estimados consumidos
-- Tokens estimados sin ecosistema
-- Decisiones técnicas relevantes
-- Pendientes para la siguiente sesión
-
----
-
-*Versión: 1.2 | Actualizado: 2026-03-11 | Ecosistema: Hipócrates MCP v1.0*
-*Cambio v1.2: Protocolo de Fallo de Agente añadido (surgido en sesión de debugging GitHub MCP)*
+*Versión: 1.3 | Actualizado: 2026-03-11 | Ecosistema: Hipócrates MCP v1.0*
+*Cambio v1.3: Checklist pre-ejecución + Protocolo de Gestión de Tokens + refs TOKEN_MANAGEMENT.md y project_state.yaml*
