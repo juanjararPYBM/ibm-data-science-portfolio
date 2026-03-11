@@ -42,29 +42,6 @@ Este archivo sirve como ledger manual para registrar el consumo de tokens por ta
 
 ---
 
-## ⚠️ TAREAS PENDIENTES DE SEGURIDAD
-
-### [PENDING] Rotación de API Keys — Post proyecto IBM
-**Prioridad:** Alta  
-**Trigger:** Al completar y entregar el proyecto IBM Data Science Professional Certificate  
-**Motivo:** Keys expuestas en historial de conversaciones de chat durante configuración del ecosistema  
-**Keys a rotar:**
-
-| Key | Dónde rotar | URL |
-|-----|------------|-----|
-| `GITHUB_TOKEN` | GitHub Settings | https://github.com/settings/tokens |
-| `DEEPSEEK_API_KEY` | DeepSeek Platform | https://platform.deepseek.com/api_keys |
-| `GOOGLE_API_KEY` | Google Cloud Console | https://console.cloud.google.com/apis/credentials |
-| `INWORLD_API_KEY` | Inworld Studio | https://studio.inworld.ai → Settings → API Keys |
-
-**Pasos post-rotación:**
-1. Actualizar `.env` local con nuevos valores
-2. Actualizar variables de entorno de Windows (Machine scope) para `GITHUB_TOKEN`
-3. Actualizar Bitwarden con los nuevos valores
-4. Verificar que `daily_close.py` sigue funcionando con el nuevo `GITHUB_TOKEN`
-
----
-
 ## SESSION ACTIVA
 | timestamp | session_id | tarea_descripcion | tipo | agente | input_est | output_est | total_est | delegable | notas |
 |-----------|------------|-------------------|------|--------|-----------|------------|-----------|-----------|-------|
@@ -89,7 +66,7 @@ Este archivo sirve como ledger manual para registrar el consumo de tokens por ta
 | 2026-03-11 09:45 | SES-003 | leer project_state.yaml desde GitHub MCP | READ_GITHUB_FILE | CLAUDE | 2,000 | 0 | 2,000 | No | Pre-corrección |
 | 2026-03-11 10:10 | SES-003 | generar CLAUDE.md v1.4 corregido | GENERATE_CONTENT | CLAUDE | 1,500 | 3,500 | 5,000 | Sí | Dataset corregido |
 | 2026-03-11 10:25 | SES-003 | generar project_state.yaml v2 | GENERATE_CONTENT | CLAUDE | 1,200 | 2,800 | 4,000 | Sí | Dataset corregido |
-| 2026-03-11 10:40 | SES-003 | push_files CLAUDE.md + project_state.yaml | COMMIT_GITHUB | CLAUDE | 1,000 | 500 | 1,500 | Sí | ⚠️ DEBERÍA: Deepseek — regla nueva desde aquí |
+| 2026-03-11 10:40 | SES-003 | push_files CLAUDE.md + project_state.yaml | COMMIT_GITHUB | CLAUDE | 1,000 | 500 | 1,500 | Sí | Deepseek commit desde esta regla |
 | 2026-03-11 11:05 | SES-003 | diseño sistema Token Analytics | DESIGN_DECISION | CLAUDE | 1,200 | 800 | 2,000 | Parcial | Arquitectura híbrida C+D |
 | 2026-03-11 11:15 | SES-003 | prompt a Deepseek análisis opciones monitoreo | DELEGATE_DEEPSEEK | CLAUDE | 100 | 300 | 400 | No | Delegación correcta |
 | 2026-03-11 11:30 | SES-003 | prompt a Deepseek generar 3 archivos sistema | DELEGATE_DEEPSEEK | CLAUDE | 150 | 350 | 500 | No | Delegación correcta |
