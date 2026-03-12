@@ -12,7 +12,7 @@
 >
 > — *Juan Pablo Jaramillo Ormaza, MD*
 
-### 👋 [Welcome — Open the Full Project in Google Colab](https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/Master_Index.ipynb)
+### 👋 [Welcome — Open the Full Project in Google Colab](https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/cardiorisk/Master_Index.ipynb)
 
 ---
 
@@ -21,7 +21,7 @@
 
 [![CRISP-DM](https://img.shields.io/badge/Methodology-CRISP--DM-blue.svg)]()
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)]()
-[![Status](https://img.shields.io/badge/Status-Phases%201--2%20Complete-brightgreen.svg)]()
+[![Status](https://img.shields.io/badge/Status-Phases%201--6%20Complete-brightgreen.svg)]()
 [![Dataset](https://img.shields.io/badge/Dataset-Kaggle%201K%20records-20beff.svg)](https://www.kaggle.com/datasets/jocelyndumlao/cardiovascular-disease-dataset)
 [![Domain](https://img.shields.io/badge/Domain-Clinical%20Decision%20Support-red.svg)]()
 
@@ -29,11 +29,11 @@
 
 ### 🚀 Launch Project
 
-[![Open Master Index](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/Master_Index.ipynb)
+[![Open Master Index](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/cardiorisk/Master_Index.ipynb)
 &nbsp;&nbsp;
-[![Fase 1](https://img.shields.io/badge/Fase%201-Business%20Understanding-00b4d8?style=flat)](https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/Fase1_Business_Understanding.ipynb)
+[![Fase 1](https://img.shields.io/badge/Fase%201-Business%20Understanding-00b4d8?style=flat)](https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/cardiorisk/Fase1_Business_Understanding.ipynb)
 &nbsp;&nbsp;
-[![Fase 2](https://img.shields.io/badge/Fase%202-Data%20Understanding-00f5d4?style=flat)](https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/Fase2_Data_Understanding.ipynb)
+[![Fase 2](https://img.shields.io/badge/Fase%202-Data%20Understanding-00f5d4?style=flat)](https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/cardiorisk/Fase2_Data_Understanding.ipynb)
 
 ---
 
@@ -44,6 +44,28 @@ A production-grade cardiovascular risk stratification system designed to detect 
 **The clinical problem:** Current hospital systems are reactive. By the time a cardiac event is detected, the intervention window has often closed. This EWS aims to stratify patient risk 6–12 hours in advance, enabling proactive triage and UCI resource optimization.
 
 **Business case:** ~$504K/year per institution · $8.2M across 16 institutions at a projected 20% mortality reduction.
+
+---
+
+## 🏆 Results — Sealed Test Set
+
+| Metric | Value | KPI | Status |
+|--------|-------|-----|--------|
+| Recall (Sensitivity) | **0.9885** | > 0.80 | ✅ |
+| AUC-ROC | **0.9998** | > 0.85 | ✅ |
+| F1-Score | **0.9885** | — | — |
+| Type II Error | **1.15%** | < 5% | ✅ |
+
+**Winning model:** `RandomForestClassifier(max_depth=10, min_samples_split=2, n_estimators=100, random_state=42)`  
+**Confusion matrix:** TP=86 · TN=62 · FP=1 · FN=1
+
+### EWS — Early Warning Score
+
+| Level | Threshold | Clinical Action |
+|-------|-----------|----------------|
+| 🟢 Low Risk | p < 0.30 | Standard monitoring · Follow-up 24–48h |
+| 🟡 Medium Risk | 0.30 ≤ p ≤ 0.65 | Intensive surveillance · 6–12h observation · Serial ECG · Biomarkers |
+| 🔴 High Risk | p > 0.65 | IMMEDIATE UCI ALERT — ACS Protocol — Cardiologist STAT |
 
 ---
 
@@ -64,15 +86,15 @@ A production-grade cardiovascular risk stratification system designed to detect 
 |---|---|---|
 | `gender` | Categorical | Biological sex (0=F, 1=M) |
 | `age` | Numerical | Patient age (range: 20–80 years) |
-| `chestpain` | Categorical | Chest pain type (0=Typical → 3=Asymptomatic) |
+| `chestpain` | Categorical | Chest pain type (0=Typical → 3=Asymptomatic ⚠️ highest risk) |
 | `restingBP` | Numerical | Resting systolic blood pressure (94–200 mmHg) |
 | `serumcholestrol` | Numerical | Total serum cholesterol (0–602 mg/dl) |
 | `fastingbloodsugar` | Binary | Fasting glucose > 120 mg/dl |
-| `restingrelectro` | Categorical | Resting ECG (0=Normal, 1=ST-T, 2=LVH) |
+| `restingrelectro` | Categorical | Resting ECG (0=Normal, 1=ST-T abnormality, 2=LVH) |
 | `maxheartrate` | Numerical | Maximum heart rate achieved (71–202 bpm) |
 | `exerciseangia` | Binary | Exercise-induced angina |
 | `oldpeak` | Numerical | ST segment depression (0.0–6.2) |
-| `slope` | Categorical | ST segment slope (1=Up, 2=Flat, 3=Down) |
+| `slope` | Categorical | ST segment slope (0=Up/low risk, 1=Flat, 2=Down/high risk) |
 | `noofmajorvessels` | Numerical | Major vessels by fluoroscopy (0–3) |
 | `target` | **Target** | Cardiovascular risk diagnosis |
 
@@ -82,14 +104,14 @@ A production-grade cardiovascular risk stratification system designed to detect 
 
 | Phase | Notebook | Status | Key Output |
 |---|---|---|---|
-| 📋 **1. Business Understanding** | [Open in Colab ↗](https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/Fase1_Business_Understanding.ipynb) | ✅ Complete | EWS strategy · stakeholder cards · ROI methodology |
-| 🔍 **2. Data Understanding** | [Open in Colab ↗](https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/Fase2_Data_Understanding.ipynb) | ✅ Complete | Full EDA · Spearman heatmap · feature ranking |
-| 🛠️ **3. Data Preparation** | Fase 3 | 🔄 In Progress | Feature engineering · class imbalance |
-| 🤖 **4. Modeling** | Fase 4 | 📋 Planned | Random Forest · XGBoost · SHAP |
-| 📊 **5. Evaluation** | Fase 5 | 📋 Planned | Clinical validation · Recall > 80% |
-| 🚀 **6. Deployment** | Fase 6 | 📋 Planned | HL7/FHIR · real-time scoring |
+| 📋 **1. Business Understanding** | [Open in Colab ↗](https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/cardiorisk/Fase1_Business_Understanding.ipynb) | ✅ Complete | EWS strategy · stakeholder cards · ROI methodology |
+| 🔍 **2. Data Understanding** | [Open in Colab ↗](https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/cardiorisk/Fase2_Data_Understanding.ipynb) | ✅ Complete | Full EDA · Spearman heatmap · feature ranking |
+| 🛠️ **3. Data Preparation** | [Open in Colab ↗](https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/cardiorisk/Fase3_Data_Preparation.ipynb) | ✅ Complete | 20 features · SMOTE · 70/15/15 split |
+| 🤖 **4. Modeling** | [Open in Colab ↗](https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/cardiorisk/Fase4_Modeling.ipynb) | ✅ Complete | RandomForest winner · GridSearchCV · Recall-optimized |
+| 📊 **5. Evaluation** | [Open in Colab ↗](https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/cardiorisk/Fase5_Evaluation.ipynb) | ✅ Complete | Recall=0.9885 · AUC=0.9998 · FN=1 · SHAP |
+| 🚀 **6. Deployment** | [Open in Colab ↗](https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/cardiorisk/Fase6_Deployment.ipynb) | ✅ Complete | EWS deployable · `predecir_riesgo_cardiovascular()` |
 
-👉 **[Master Index — Full Navigation Hub](https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/Master_Index.ipynb)**
+👉 **[Master Index — Full Navigation Hub](https://colab.research.google.com/github/juanjararPYBM/ibm-data-science-portfolio/blob/main/proyecto_medico/cardiorisk/Master_Index.ipynb)**
 
 ---
 
@@ -182,29 +204,24 @@ Spearman correlation was chosen over Pearson because the variables contain ordin
 
 ---
 
-## 🛠️ Phase 3 — Data Preparation *(In Progress)*
+## 🛠️ Phase 3 — Data Preparation ✅
 
-**Priority engineering tasks derived from Phase 2 findings:**
+**Canonical preprocessing pipeline — 20 features:**
 
 - `slope × oldpeak` — interaction feature (electrical pair)
 - `log(oldpeak + 1)` — correct right skew
-- `noofmajorvessels_bin` — binary encoding (0 vs ≥1, and ≥2)
-- Gender-stratified risk thresholds
-- Class imbalance handling (SMOTE or class weights)
-- Train/validation/test split with stratification on `target`
+- OHE (drop_first=False): `gender`, `chestpain`, `restingrelectro`
+- Split: 70/15/15 stratified · Scaler fit on train only · SMOTE on train only
 
 ---
 
-## 🤖 Phase 4 — Modeling *(Planned)*
+## 🤖 Phase 4 — Modeling ✅
 
-**Candidate models:**
-- Random Forest Classifier (interpretable, handles ordinal vars)
-- XGBoost (gradient boosting, strong baseline)
-- Logistic Regression (clinical interpretability benchmark)
+**5 models compared:** Logistic Regression · Random Forest · Gradient Boosting · XGBoost · SVM
 
-**Explainability:** SHAP values for all final models — required for clinical validation.
+**Winner:** `RandomForestClassifier(max_depth=10, min_samples_split=2, n_estimators=100, random_state=42)`
 
-**Primary optimization target:** Recall on High Risk class (minimize false negatives — the highest-cost error in this domain).
+**Optimization:** GridSearchCV with StratifiedKFold(5) · Primary metric: Recall
 
 ---
 
@@ -221,7 +238,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 # + Chart.js (animated) + D3.js (interactive heatmap)
 
-# Modeling (Phase 4)
+# Modeling
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import recall_score, roc_auc_score
 import shap
