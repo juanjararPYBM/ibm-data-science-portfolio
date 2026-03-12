@@ -1,6 +1,8 @@
 # notebooks/
 
-Los notebooks del proyecto CardioRisk han sido consolidados en:
+Este directorio está deprecado.
+
+Todos los notebooks del proyecto CardioRisk están consolidados en:
 
 ```
 proyecto_medico/cardiorisk/
@@ -11,5 +13,3 @@ proyecto_medico/cardiorisk/
 ├── Fase5_Evaluation.ipynb
 └── Fase6_Deployment.ipynb
 ```
-
-Este directorio ya no contiene notebooks activos.
