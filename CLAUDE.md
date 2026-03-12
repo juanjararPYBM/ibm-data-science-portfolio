@@ -34,7 +34,7 @@ Al iniciar cada sesión, Claude DEBE:
 | Scripts PowerShell / bash / docker / configuración | `deepseek:deepseek_chat` |
 | Formateo y limpieza de datos (pandas, valores nulos, encoding, outliers) | `deepseek:deepseek_chat` |
 | Conversión de formatos (CSV, JSON, pickle, notebooks) | `deepseek:deepseek_chat` |
-| Boilerplate de notebooks Jupyter | `deepseek:deepseek_chat` |
+| **JSON completo de notebooks Jupyter** | `deepseek:deepseek_chat` |
 | Docstrings y comentarios de código | `deepseek:deepseek_chat` |
 | Grid search y cross-validation (solo el código, no la interpretación) | `deepseek:deepseek_chat` |
 | Debugging errores sintácticos (SyntaxError, IndentationError, NameError, TypeError) | `deepseek:deepseek_chat` |
@@ -63,6 +63,7 @@ Al iniciar cada sesión, Claude DEBE:
 - Razonamiento sobre trade-offs Precision vs Recall en cardiopatía
 - Cualquier conclusión que conecte datos con decisión clínica
 - Explicaciones didácticas para el aprendizaje de Juan
+- **Specs de notebooks** — Claude siempre escribe la spec; Deepseek siempre genera el JSON
 
 ---
 
@@ -78,12 +79,42 @@ Claude DEBE verificar este checklist en TODO código sklearn antes de que Juan l
 - [ ] **Reproducibilidad** — `random_state=42` en todo
 - [ ] **Balance de clases** — SMOTE ya aplicado en train; no aplicar `class_weight='balanced'` doble
 - [ ] **Carga de datos** — usar `kagglehub.dataset_download("jocelyndumlao/cardiovascular-disease-dataset")`
+- [ ] **Dataset correcto** — el dataset es `jocelyndumlao/cardiovascular-disease-dataset` (1000 filas, sep=`,`). NUNCA usar `cardio_train.csv` (sep=`;`, 70k filas) ni fabricar columnas con `np.random`
 - [ ] **Consistencia entre fases** — EWS umbrales en F6 coinciden con los definidos en F1 (EWS_BAJO=0.30, EWS_MEDIO=0.65)
 - [ ] **Nombres de niveles** — usar "Bajo Riesgo / Riesgo Medio / Alto Riesgo" (no BAJO/MODERADO/ALTO)
 - [ ] **KPIs completos** — verificar los 3 KPIs de F1: Recall>0.80, AUC-ROC>0.85, Error tipo II<5%
 - [ ] **patientid excluido** — siempre en feature_cols: `c not in [TARGET, 'patientid']`
 
 > Si algún punto falla → Deepseek corrige. Claude NO ejecuta correcciones de código.
+
+---
+
+## 💰 Economía de Tokens — Regla de Generación de Notebooks
+
+> **Lección aprendida (2026-03-12):** Claude generó el JSON completo de 4 notebooks (~15k tokens de input) cuando ese trabajo debió delegarse íntegramente a Deepseek. El JSON de un notebook Jupyter es estructura repetitiva y mecánica — no requiere razonamiento de Claude.
+
+### Regla fija para todos los proyectos:
+
+| Quién | Qué hace | Por qué |
+|-------|----------|---------|
+| **Claude** | Escribe la SPEC del notebook en texto plano | Requiere razonamiento de dominio, coherencia entre fases, validación clínica |
+| **Deepseek** | Genera el JSON `.ipynb` completo | Mecánico, verboso, no requiere razonamiento |
+| **Claude** | Revisa el código generado (checklist) | Detecta errores lógicos como dataset incorrecto, data leakage silencioso |
+| **GitHub MCP** | Commitea el JSON aprobado | Mecánico |
+
+### Ahorro estimado por notebook:
+- JSON Jupyter de un notebook completo: ~3,000–5,000 tokens de código Python real + ~10,000–12,000 tokens de andamiaje Jupyter (corchetes, metadata, `\n`, `execution_count`, etc.)
+- **Delegando a Deepseek: ahorro de ~10–12k tokens de input por notebook**
+- Para un proyecto con 4–6 notebooks: ahorro de **~50k tokens por sesión de generación**
+
+### Spec mínima que Claude debe incluir al delegar:
+1. CANON de preprocesamiento — bloque de código Python exacto (copy-paste)
+2. Estructura de bloques — título, objetivo, qué hace cada bloque
+3. Invariantes que no se pueden romper — dataset, features, random_state, etc.
+4. Restricciones explícitas — qué NO hacer (ej: "nunca usar np.random para fabricar columnas", "nunca cardio_train.csv")
+5. Estilo visual — colores, rcParams si aplica
+
+> **Recordatorio:** la calidad no viene del JSON — viene de que la spec esté bien escrita. Una spec incompleta produce código incorrecto aunque Claude revise después. Invertir tiempo en la spec = ahorrar tiempo en debugging.
 
 ---
 
@@ -120,6 +151,7 @@ Claude DEBE verificar este checklist en TODO código sklearn antes de que Juan l
 - Si Claude lleva >3 respuestas seguidas → señal `[C]×3` → revisar si se puede delegar
 - Contexto al 70% → aplicar template de resumen ejecutivo y abrir sesión nueva
 - Actualizar `project_state.yaml` al cierre de cada sesión o checkpoint
+- **Claude NUNCA genera JSON de notebooks directamente** — ver §Economía de Tokens
 
 ---
 
@@ -136,10 +168,12 @@ Claude DEBE verificar este checklist en TODO código sklearn antes de que Juan l
 
 ## 🔄 Flujo de Trabajo — Regla Estricta de Delegación
 
-> **Lección aprendida (2026-03-11):** Claude ejecutó directamente correcciones de código que debieron pasar por Deepseek. Esto viola el principio de economía de tokens y el flujo acordado.
+> **Lección aprendida (2026-03-11):** Claude ejecutó directamente correcciones de código que debieron pasar por Deepseek.
+> **Lección aprendida (2026-03-12):** Claude generó JSON de notebooks directamente (~15k tokens innecesarios). La spec debe ir a Deepseek; Deepseek produce el JSON; Claude revisa.
 
 ### ❌ Claude NO debe NUNCA:
 - Generar código Python directamente en su respuesta
+- **Generar JSON de notebooks Jupyter directamente** — siempre via Deepseek
 - Commitear código que él mismo generó sin revisión de Deepseek
 - Ejecutar correcciones de notebooks sin pasar por el flujo delegado
 - Usar `github:create_or_update_file` con código generado por Claude mismo
@@ -148,7 +182,7 @@ Claude DEBE verificar este checklist en TODO código sklearn antes de que Juan l
 
 ```
 1. [C]   Claude analiza el problema y redacta la SPEC exacta
-         (qué cambiar, por qué, invariantes que no tocar)
+         (qué cambiar, por qué, invariantes que no tocar, restricciones explícitas)
 2. [D]   Deepseek genera el contenido completo según la spec
 3. [C]   Claude revisa lo que generó Deepseek (checklist pre-ejecución)
 4. [C]   Claude aprueba o pide corrección a Deepseek
@@ -169,6 +203,7 @@ Claude DEBE verificar este checklist en TODO código sklearn antes de que Juan l
 
 ### Señal de alerta:
 Si Claude empieza a escribir código Python en su respuesta → STOP. Debe reformular como spec para Deepseek.
+Si Claude empieza a escribir JSON de notebook → STOP. Debe redactar spec y pasar a Deepseek.
 
 ---
 
@@ -191,6 +226,7 @@ Si Claude empieza a escribir código Python en su respuesta → STOP. Debe refor
 
 ---
 
-*Versión: 1.5 | Actualizado: 2026-03-11 | Ecosistema: Hipócrates MCP v1.0*
+*Versión: 1.6 | Actualizado: 2026-03-12 | Ecosistema: Hipócrates MCP v1.0*
 *Cambio v1.4: Dataset corregido a jocelyndumlao (1000 muestras, 14 features). Columnas reales extraídas de Fase2/Fase3. Checklist actualizado con carga via kagglehub y SMOTE.*
 *Cambio v1.5: Reglas de flujo de trabajo reforzadas. Claude NO genera código ni contenido directamente. Sección §Flujo de Trabajo actualizada a Fases 1-6 completas.*
+*Cambio v1.6: Regla de economía de tokens para notebooks. Claude NUNCA genera JSON de notebooks — escribe specs, Deepseek genera JSON. Ahorro estimado ~50k tokens por sesión de generación de notebooks. Checklist ampliado con validación de dataset correcto.*
