@@ -482,3 +482,16 @@ Este archivo sirve como ledger manual para registrar el consumo de tokens por ta
 | Ahorro % | 0.0% |
 | Tareas delegadas a Deepseek | 0 |
 | Hora de cierre | 2026-04-08 00:00 COT |
+---
+
+### CIERRE CONTABLE — SES-033 — 2026-04-09 00:00 COT
+| Métrica | Valor |
+|---------|-------|
+| Total tokens Claude estimados | 0 |
+| Total tokens Deepseek (real) | 0 |
+| Costo real Deepseek (USD) | $0.00000 |
+| Ahorro vs Claude (tokens) | 0 |
+| Ahorro vs Claude (USD) | $0.00000 |
+| Ahorro % | 0.0% |
+| Tareas delegadas a Deepseek | 0 |
+| Hora de cierre | 2026-04-09 00:00 COT |
