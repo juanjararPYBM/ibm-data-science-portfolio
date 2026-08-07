@@ -1,75 +1,93 @@
 # 🏥 Hipócrates MCP Ecosystem — Reglas de Orquestación
 
 > Este archivo es leído automáticamente por Claude Code y por Claude Desktop (vía GitHub MCP) al inicio de cada sesión.
-> Define cómo delegar trabajo entre agentes para maximizar eficiencia de tokens sin comprometer calidad.
+> Define cómo se reparte el trabajo para maximizar eficiencia de tokens sin comprometer calidad.
 > **Archivos de soporte:** `TOKEN_MANAGEMENT.md` | `project_state.yaml` | `EXPERIMENT_LOG.md`
 
 ---
 
 ## ⚡ Regla de Oro
 
-**Claude Sonnet solo piensa. Los microservicios ejecutan.**
+**Claude piensa y ejecuta. La disciplina es de concisión, no de delegación.**
 
-Antes de generar cualquier código, script, documento o búsqueda, Claude evalúa si la tarea puede delegarse. Si puede delegarse, DEBE delegarse.
+Ya no hay un modelo secundario que reciba el trabajo mecánico. Claude genera el código, lo revisa contra el checklist y lo commitea. Por lo tanto el control de tokens se traslada a **cómo** se escribe el código:
+
+- Edición quirúrgica sobre reescritura completa — usar `Edit` sobre celdas puntuales, nunca regenerar un notebook entero por un cambio de tres líneas
+- No imprimir código en la respuesta de chat si ya va a escribirse en un archivo
+- No re-leer archivos recién editados para "verificar" — la herramienta ya falla si la edición no aplicó
 
 ---
 
 ## 🚦 Inicio de Sesión
 
 Al iniciar cada sesión, Claude DEBE:
-1. Leer este archivo vía GitHub MCP para auto-contextualizarse
+1. Leer este archivo para auto-contextualizarse
 2. Leer `project_state.yaml` para conocer el estado actual del experimento
 3. No pedir a Juan que explique el estado del proyecto ni el dataset
-4. Confirmar qué agentes están disponibles antes de comenzar
+4. Verificar qué herramientas están realmente cargadas antes de prometer una capacidad
 
 ---
 
-## 📋 Tabla de Delegación
+## 🤖 Agentes y Herramientas
 
-### ✅ Delegar SIEMPRE a Deepseek — sin revisión de Claude
+### Verificados disponibles
 
-| Tarea | Herramienta |
-|-------|-------------|
-| Código Python mecánico (sklearn pipelines, train/test split, métricas numéricas) | `deepseek:deepseek_chat` |
-| Scripts PowerShell / bash / docker / configuración | `deepseek:deepseek_chat` |
-| Formateo y limpieza de datos (pandas, valores nulos, encoding, outliers) | `deepseek:deepseek_chat` |
-| Conversión de formatos (CSV, JSON, pickle, notebooks) | `deepseek:deepseek_chat` |
-| **JSON completo de notebooks Jupyter** | `deepseek:deepseek_chat` |
-| Docstrings y comentarios de código | `deepseek:deepseek_chat` |
-| Grid search y cross-validation (solo el código, no la interpretación) | `deepseek:deepseek_chat` |
-| Debugging errores sintácticos (SyntaxError, IndentationError, NameError, TypeError) | `deepseek:deepseek_chat` |
-| Búsqueda de documentación, errores específicos, ejemplos de código | `deepseek:web_search` |
-| Commits y actualizaciones al repositorio | `github:push_files` |
-| Visualizaciones médicas e imágenes clínicas | `nano-banana:generate_medical_image` |
-| Gráficos de riesgo cardiovascular | `nano-banana:create_risk_chart` |
-| Narración de hallazgos clínicos (demos, presentaciones) | `inworld-tts:generate_speech` |
+| Herramienta | Uso |
+|-------------|-----|
+| `github:*` | Commits, PRs, lectura de repos, GitHub Actions |
+| `WebSearch` | Búsqueda web indexada (server-side, siempre funciona) |
+| `Bash` / `Read` / `Edit` / `Write` | Ejecución y edición local en el contenedor |
+| `Magnific:images_*` | Generación de imágenes y visualizaciones |
+| `PubMed:*` | Literatura médica — búsqueda, metadata, texto completo |
+| `HappyScribe:*` | Transcripción de audio/video |
 
-### ⚠️ Delegar a Deepseek CON revisión de Claude
+### Pendientes de verificación por sesión
 
-| Tarea | Razón de revisión |
-|-------|------------------|
-| Ingeniería de features | Claude valida pertinencia clínica de cada feature |
-| Selección de hiperparámetros | Claude aprueba que los rangos tienen lógica médica |
-| Estructura del notebook | Claude revisa narrativa CRISP-DM |
-| Documentación técnica (README, docstrings masivos) | Claude verifica precisión clínica del lenguaje |
-| Debugging lógico ML (resultados inesperados sin error explícito) | Claude detecta data leakage o sesgos silenciosos |
+`nano-banana` e `inworld-tts` aparecían en versiones previas de este archivo pero **no se han visto cargados en sesiones recientes**. Antes de planear trabajo que dependa de ellos, confirmar con `ToolSearch`. Para generación de imágenes, `Magnific` cubre la necesidad.
 
-### 🔴 Exclusivo de Claude Sonnet — nunca delegar
+`Gmail` requiere autorización OAuth desde los ajustes de conectores de claude.ai.
+
+---
+
+## 📋 Tabla de Responsabilidades
+
+### 🟢 Ejecución directa — Claude escribe y commitea sin ceremonia
+
+| Tarea |
+|-------|
+| Código Python mecánico (sklearn pipelines, train/test split, métricas numéricas) |
+| Scripts PowerShell / bash / docker / configuración |
+| Formateo y limpieza de datos (pandas, valores nulos, encoding, outliers) |
+| Conversión de formatos (CSV, JSON, pickle, notebooks) |
+| Docstrings y comentarios de código |
+| Grid search y cross-validation |
+| Debugging de errores sintácticos |
+| Commits y actualizaciones al repositorio |
+
+### 🟡 Ejecución con checklist obligatorio antes de entregar
+
+| Tarea | Qué se verifica |
+|-------|-----------------|
+| Ingeniería de features | Pertinencia clínica de cada feature |
+| Selección de hiperparámetros | Que los rangos tengan lógica médica |
+| Estructura del notebook | Narrativa CRISP-DM coherente |
+| Documentación técnica | Precisión clínica del lenguaje |
+| Debugging lógico ML | Data leakage o sesgos silenciosos |
+
+### 🔴 Razonamiento que nunca se automatiza ni se apura
 
 - Interpretación de métricas en contexto cardíaco (qué significa Recall 0.78 para un paciente real)
-- Decisión de qué algoritmo usar y justificación clínica
+- Decisión de qué algoritmo usar y su justificación clínica
 - Redacción del reporte CRISP-DM final
-- Diseño de prompts para los agentes
 - Razonamiento sobre trade-offs Precision vs Recall en cardiopatía
 - Cualquier conclusión que conecte datos con decisión clínica
 - Explicaciones didácticas para el aprendizaje de Juan
-- **Specs de notebooks** — Claude siempre escribe la spec; Deepseek siempre genera el JSON
 
 ---
 
-## ✅ Checklist Pre-Ejecución — Verificación obligatoria de código Deepseek
+## ✅ Checklist Pre-Ejecución — Verificación obligatoria de todo código sklearn
 
-Claude DEBE verificar este checklist en TODO código sklearn antes de que Juan lo ejecute:
+Claude DEBE verificar este checklist antes de que Juan ejecute cualquier código:
 
 - [ ] **Sin data leakage** — `.fit()` solo en train, `.transform()` separado en test
 - [ ] **Métrica principal** — se optimiza Recall, no Accuracy
@@ -85,36 +103,33 @@ Claude DEBE verificar este checklist en TODO código sklearn antes de que Juan l
 - [ ] **KPIs completos** — verificar los 3 KPIs de F1: Recall>0.80, AUC-ROC>0.85, Error tipo II<5%
 - [ ] **patientid excluido** — siempre en feature_cols: `c not in [TARGET, 'patientid']`
 
-> Si algún punto falla → Deepseek corrige. Claude NO ejecuta correcciones de código.
+> Este checklist es la red de seguridad principal. Con un solo modelo generando y revisando, **el sesgo del autor-revisor es real**: Claude debe recorrer la lista explícitamente, punto por punto, no declararla aprobada de memoria.
 
 ---
 
-## 💰 Economía de Tokens — Regla de Generación de Notebooks
+## 💰 Economía de Tokens
 
-> **Lección aprendida (2026-03-12):** Claude generó el JSON completo de 4 notebooks (~15k tokens de input) cuando ese trabajo debió delegarse íntegramente a Deepseek. El JSON de un notebook Jupyter es estructura repetitiva y mecánica — no requiere razonamiento de Claude.
+> **Lección aprendida (2026-03-12):** regenerar el JSON completo de 4 notebooks costó ~15k tokens innecesarios. El andamiaje de un `.ipynb` (corchetes, metadata, `\n`, `execution_count`) es puro relleno.
+> **Lección aprendida (2026-08-07):** al desaparecer el modelo secundario, la regla ya no es "delegar" sino "no reescribir".
 
-### Regla fija para todos los proyectos:
+### Reglas fijas
 
-| Quién | Qué hace | Por qué |
-|-------|----------|---------|
-| **Claude** | Escribe la SPEC del notebook en texto plano | Requiere razonamiento de dominio, coherencia entre fases, validación clínica |
-| **Deepseek** | Genera el JSON `.ipynb` completo | Mecánico, verboso, no requiere razonamiento |
-| **Claude** | Revisa el código generado (checklist) | Detecta errores lógicos como dataset incorrecto, data leakage silencioso |
-| **GitHub MCP** | Commitea el JSON aprobado | Mecánico |
+| Situación | Qué hacer |
+|-----------|-----------|
+| Cambio puntual en un notebook | `Edit` sobre la celda específica — nunca `Write` del archivo completo |
+| Notebook nuevo desde cero | Escribir el `.ipynb` una sola vez, bien, con el checklist ya aplicado |
+| Corrección tras error de ejecución | Editar solo la celda que falló |
+| Código que va a un archivo | No duplicarlo en la respuesta de chat |
+| Verificar que una edición aplicó | No re-leer el archivo — la herramienta ya habría fallado |
 
-### Ahorro estimado por notebook:
-- JSON Jupyter de un notebook completo: ~3,000–5,000 tokens de código Python real + ~10,000–12,000 tokens de andamiaje Jupyter (corchetes, metadata, `\n`, `execution_count`, etc.)
-- **Delegando a Deepseek: ahorro de ~10–12k tokens de input por notebook**
-- Para un proyecto con 4–6 notebooks: ahorro de **~50k tokens por sesión de generación**
-
-### Spec mínima que Claude debe incluir al delegar:
-1. CANON de preprocesamiento — bloque de código Python exacto (copy-paste)
+### Antes de escribir un notebook, tener resuelto:
+1. CANON de preprocesamiento — bloque de código exacto
 2. Estructura de bloques — título, objetivo, qué hace cada bloque
-3. Invariantes que no se pueden romper — dataset, features, random_state, etc.
-4. Restricciones explícitas — qué NO hacer (ej: "nunca usar np.random para fabricar columnas", "nunca cardio_train.csv")
-5. Estilo visual — colores, rcParams si aplica
+3. Invariantes — dataset, features, `random_state`
+4. Restricciones explícitas — nunca `np.random` para fabricar columnas, nunca `cardio_train.csv`
+5. Estilo visual — colores, `rcParams` si aplica
 
-> **Recordatorio:** la calidad no viene del JSON — viene de que la spec esté bien escrita. Una spec incompleta produce código incorrecto aunque Claude revise después. Invertir tiempo en la spec = ahorrar tiempo en debugging.
+> Pensar la estructura antes de escribir sigue siendo la mejor inversión: un notebook mal planteado se paga en ciclos de debugging, que cuestan más que el archivo original.
 
 ---
 
@@ -122,88 +137,88 @@ Claude DEBE verificar este checklist en TODO código sklearn antes de que Juan l
 
 > Principio: el paramédico intenta estabilizar, si no escala al médico, si no al especialista.
 
-| Nivel | Intentos | Acción | Condición |
-|-------|----------|--------|-----------|
-| **1** | 1–2 | Deepseek solo | Errores sintácticos, tipos, importaciones, stack traces obvios |
-| **2** | 3–4 | Deepseek + supervisión Claude | Claude orienta la dirección del fix, Deepseek ejecuta |
-| **3** | 5+ | Claude toma el control | Error persistente que requiere razonamiento arquitectural |
-| **⚡ Especial** | Inmediato | Claude interviene sin escalar | Data leakage, métricas infladas, errores en lógica médica |
+| Nivel | Intentos | Acción |
+|-------|----------|--------|
+| **1** | 1–2 | Fix directo — errores sintácticos, tipos, importaciones, stack traces obvios |
+| **2** | 3–4 | Releer el contexto completo del bloque antes de tocar nada |
+| **3** | 5+ | Parar. Replantear la arquitectura del bloque en vez de parchar |
+| **⚡ Especial** | Inmediato | Data leakage, métricas infladas o errores de lógica médica — se atienden antes que cualquier otra cosa, sin agotar intentos |
+
+> Si un error persiste más de 4 intentos, el problema casi nunca es la línea que falla — es una suposición equivocada más arriba.
 
 ---
 
-## 🚨 Protocolo de Fallo de Agente
+## 🚨 Protocolo de Fallo de Herramienta
 
 > Surgido en sesión 2026-03-11: GitHub MCP no cargó tools en sesión activa.
 
-1. Si una herramienta falla en el primer intento, Claude DEBE usar `tool_search` para recargarla
-2. Claude NUNCA asume tareas delegables por fallo técnico
-3. Si después de 2 reintentos el agente no responde → notificar a Juan con error exacto y esperar instrucciones
-4. Aplica a TODOS los agentes: Deepseek, Nano-banana, Inworld TTS, GitHub MCP
+1. Si una herramienta falla en el primer intento, Claude DEBE usar `ToolSearch` para recargarla
+2. Si tras 2 reintentos no responde → notificar a Juan con el error exacto y esperar instrucciones
+3. Claude NUNCA reporta una capacidad como disponible sin haberla verificado
+4. Claude NUNCA reporta una capacidad como imposible sin haber intentado recargarla
 
 ---
 
-## 📊 Protocolo de Gestión de Tokens
+## 🌐 Entorno de Ejecución — Límites de red
 
-> Ver detalle completo en `TOKEN_MANAGEMENT.md`
+> **Descubierto en sesión 2026-08-07.** Aplica a Claude Code on the web / entornos remotos.
 
-**Reglas críticas:**
-- Checkpoint obligatorio cada 4 ciclos (diseño→código→debug→commit)
-- Si Claude lleva >3 respuestas seguidas → señal `[C]×3` → revisar si se puede delegar
-- Contexto al 70% → aplicar template de resumen ejecutivo y abrir sesión nueva
-- Actualizar `project_state.yaml` al cierre de cada sesión o checkpoint
-- **Claude NUNCA genera JSON de notebooks directamente** — ver §Economía de Tokens
+El contenedor remoto tiene **egress restringido por política de red**. Verificado por sondeo:
+
+| Destino | Estado |
+|---------|--------|
+| `api.anthropic.com`, `github.com`, `registry.npmjs.org`, `pypi.org` | ✅ Alcanzable |
+| Cualquier otro dominio (incluido `example.com`) | ❌ `EGRESS_BLOCKED` |
+
+**Consecuencias prácticas:**
+- `WebFetch` falla contra sitios externos. `WebSearch` sí funciona (corre server-side).
+- Chromium y Playwright **están instalados** (`/opt/pw-browsers/chromium`) pero no pueden navegar fuera del allowlist.
+- Instalar un MCP de navegador local no lo resuelve: correría dentro del mismo contenedor.
+
+**Vía de escape cuando se necesita internet abierto:** GitHub Actions. Los runners tienen egress libre. El patrón es: Claude pushea el workflow → el runner ejecuta y commitea resultados → Claude los lee vía GitHub MCP. Ningún paso toca el proxy bloqueado.
+
+**Limitación de ese patrón:** los runners usan IPs de datacenter de Azure, que los antibot comerciales filtran. Funciona bien contra sitios `.gov.co` y APIs abiertas; mal contra portales con Cloudflare/DataDome.
 
 ---
 
 ## 🔬 Protocolo de Investigación y Literatura
 
-**Deepseek maneja todo el trabajo bruto:** búsqueda web, extracción PDFs, resúmenes técnicos, datasets.
-
-**Claude interviene UNA SOLA VEZ al final** validando:
+`WebSearch` y `PubMed` para el trabajo de campo. Claude valida al cerrar:
 1. ¿La fuente es confiable?
 2. ¿El dato tiene contexto clínico correcto?
 3. ¿Hay contradicción entre fuentes?
 
+> Con `WebFetch` bloqueado en entorno remoto, `WebSearch` y `PubMed` son las únicas vías de investigación. Si una búsqueda exige leer páginas completas, decirlo explícitamente en vez de entregar un resultado incompleto sin avisar.
+
 ---
 
-## 🔄 Flujo de Trabajo — Regla Estricta de Delegación
+## 🔄 Flujo de Trabajo
 
-> **Lección aprendida (2026-03-11):** Claude ejecutó directamente correcciones de código que debieron pasar por Deepseek.
-> **Lección aprendida (2026-03-12):** Claude generó JSON de notebooks directamente (~15k tokens innecesarios). La spec debe ir a Deepseek; Deepseek produce el JSON; Claude revisa.
-
-### ❌ Claude NO debe NUNCA:
-- Generar código Python directamente en su respuesta
-- **Generar JSON de notebooks Jupyter directamente** — siempre via Deepseek
-- Commitear código que él mismo generó sin revisión de Deepseek
-- Ejecutar correcciones de notebooks sin pasar por el flujo delegado
-- Usar `github:create_or_update_file` con código generado por Claude mismo
-
-### ✅ Flujo obligatorio para cualquier corrección de código o notebook:
+### Para cualquier cambio de código o notebook:
 
 ```
-1. [C]   Claude analiza el problema y redacta la SPEC exacta
-         (qué cambiar, por qué, invariantes que no tocar, restricciones explícitas)
-2. [D]   Deepseek genera el contenido completo según la spec
-3. [C]   Claude revisa lo que generó Deepseek (checklist pre-ejecución)
-4. [C]   Claude aprueba o pide corrección a Deepseek
-5. [G]   GitHub MCP commitea el contenido aprobado
-6. [👤]  Juan ejecuta/valida en Colab
+1. [C]   Claude analiza el problema y define el cambio exacto
+         (qué cambiar, por qué, invariantes que no tocar)
+2. [C]   Claude escribe el código
+3. [C]   Claude recorre el checklist pre-ejecución punto por punto
+4. [G]   GitHub MCP commitea
+5. [👤]  Juan ejecuta/valida en Colab
 ```
 
-### ✅ Flujo para análisis e incongruencias (como F1 vs F6):
+### Para análisis e incongruencias entre fases (como F1 vs F6):
 
 ```
-1. [👤]  Juan detecta o Claude detecta una incongruencia
-2. [C]   Claude analiza TODAS las fases afectadas y lista los cambios exactos
-3. [C]   Claude escribe spec detallada para Deepseek
-4. [D]   Deepseek genera el contenido corregido
-5. [C]   Claude revisa consistencia clínica y técnica
-6. [G]   GitHub MCP commitea
+1. [👤/C] Se detecta la incongruencia
+2. [C]    Claude analiza TODAS las fases afectadas y lista los cambios exactos
+3. [C]    Claude aplica los cambios con edición quirúrgica
+4. [C]    Claude verifica consistencia clínica y técnica cruzada entre fases
+5. [G]    GitHub MCP commitea
 ```
 
-### Señal de alerta:
-Si Claude empieza a escribir código Python en su respuesta → STOP. Debe reformular como spec para Deepseek.
-Si Claude empieza a escribir JSON de notebook → STOP. Debe redactar spec y pasar a Deepseek.
+### Señales de alerta:
+- Si Claude va a reescribir un archivo completo por un cambio menor → STOP, usar `Edit`
+- Si Claude declara el checklist aprobado sin recorrerlo → STOP, recorrerlo explícitamente
+- Si Claude promete una capacidad sin verificar la herramienta → STOP, verificar primero
 
 ---
 
@@ -222,11 +237,11 @@ Si Claude empieza a escribir JSON de notebook → STOP. Debe redactar spec y pas
 
 ### Hardware
 - CPU: Ryzen 9 7950X3D | RAM: 32GB | GPU: RTX 4070 12GB VRAM | OS: Windows 11
-- Deepseek local: `deepseek-coder-v2:16b-lite-instruct-q4_K_M` (Ollama)
 
 ---
 
-*Versión: 1.6 | Actualizado: 2026-03-12 | Ecosistema: Hipócrates MCP v1.0*
-*Cambio v1.4: Dataset corregido a jocelyndumlao (1000 muestras, 14 features). Columnas reales extraídas de Fase2/Fase3. Checklist actualizado con carga via kagglehub y SMOTE.*
-*Cambio v1.5: Reglas de flujo de trabajo reforzadas. Claude NO genera código ni contenido directamente. Sección §Flujo de Trabajo actualizada a Fases 1-6 completas.*
-*Cambio v1.6: Regla de economía de tokens para notebooks. Claude NUNCA genera JSON de notebooks — escribe specs, Deepseek genera JSON. Ahorro estimado ~50k tokens por sesión de generación de notebooks. Checklist ampliado con validación de dataset correcto.*
+*Versión: 2.0 | Actualizado: 2026-08-07 | Ecosistema: Hipócrates MCP v2.0*
+*Cambio v1.4: Dataset corregido a jocelyndumlao (1000 muestras, 14 features).*
+*Cambio v1.5: Reglas de flujo de trabajo reforzadas.*
+*Cambio v1.6: Regla de economía de tokens para notebooks.*
+*Cambio v2.0: **Deepseek eliminado del ecosistema.** Claude asume generación y revisión de código. La economía de tokens pasa de "delegar" a "editar en vez de reescribir". Checklist reforzado por riesgo de sesgo autor-revisor. Nueva sección §Entorno de Ejecución con los límites de red descubiertos y el patrón GitHub Actions como vía de escape. Tabla de agentes ajustada a lo verificable.*
