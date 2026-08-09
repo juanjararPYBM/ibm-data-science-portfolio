@@ -366,4 +366,121 @@ Sí, tres, y las tres son informativas:
 
 ---
 
+## 11. Anexo — Panorama del campo: qué hay de nuevo y qué tiene realmente resultados
+
+> Añadido el 9-ago-2026 en respuesta a la pregunta "¿qué SARMs son los más novedosos y de mejores resultados?"
+
+La pregunta tiene una trampa importante: **"más novedoso" y "mejores resultados" apuntan en direcciones opuestas** en este campo. Hay dos universos que se confunden constantemente.
+
+### 11.A El pipeline clínico real — lo que tiene datos
+
+#### Enobosarm (ostarina / GTx-024 / MK-2866) — el más avanzado, y el único con desarrollo activo
+
+Es el único SARM que ha llegado a **fase 3** y el único con programa vivo en 2026.
+
+**Fracaso fundacional (2013) — la lección central del campo.** Los ensayos **POWER 1 y POWER 2**: fase 3, ~325 pacientes cada uno, cáncer de pulmón no microcítico estadio III/IV, enobosarm 3 mg vs placebo con quimioterapia de primera línea. Co-primarios: masa magra por DXA **y** función física por *stair climb power*.
+
+| Endpoint (día 84) | POWER 1 | POWER 2 |
+|---|---|---|
+| Masa magra corporal | p = 0,036 ✓ | p = 0,113 ✗ |
+| **Potencia al subir escaleras** | **p = 0,315 ✗** | ✗ |
+
+> **Ganaron músculo. No ganaron función.** Los ensayos fallaron los co-primarios acordados con la FDA. Esto se ha repetido después con OPK-88004 y es, en mi lectura, el hallazgo más importante de todo el campo: **la hipertrofia inducida por SARMs no se ha traducido de forma convincente en capacidad funcional.** Cualquier discurso de "mejores resultados" que sólo hable de masa magra está midiendo el endpoint que sí se alcanza y omitiendo el que importa.
+
+**Oncología (positivo).** Palmieri et al., *Lancet Oncol* 2024 — fase 2 aleatorizado, 35 centros, 9 países, cáncer de mama AR+/RE+/HER2− avanzado. [DOI: 10.1016/S1470-2045(24)00004-4](https://doi.org/10.1016/S1470-2045(24)00004-4)
+- Beneficio clínico a 24 semanas: **32 %** (9 mg) y **29 %** (18 mg).
+- EA grado 3/4 relacionados: 8 % (9 mg) vs **16 %** (18 mg) — el más frecuente, **elevación de transaminasas**.
+- Confirma que la activación del AR puede ser terapéutica en cáncer de mama. Refuerza el argumento de §6.3.
+
+Yuan et al., *Oncologist* 2021 — enobosarm + pembrolizumab en TNBC AR+: beneficio clínico 25 % a 16 semanas. Modesto. [DOI: 10.1002/onco.13583](https://doi.org/10.1002/onco.13583)
+
+**Lo verdaderamente novedoso (2025–2026): enobosarm + semaglutida.**
+Éste es el desarrollo más interesante del campo, y **el nicho ya no es el culturismo sino preservar masa magra durante la pérdida de peso con agonistas GLP-1**. *[fuente secundaria: comunicados de Veru Inc.; sin publicación revisada por pares todavía]*
+
+- **Fase 2b QUALITY**: 168 pacientes >60 años con Wegovy (semaglutida), enobosarm 3 vs 6 mg vs placebo. Con enobosarm 3 mg, **el 99 % del peso perdido fue masa grasa**, con preservación de masa magra, **menos efectos adversos GI** (diarrea, náusea, ERGE) que semaglutida sola, y menor proporción de pacientes con pérdida clínicamente significativa de función física.
+- **Estudio de extensión**: enobosarm redujo la reganancia de peso y previno la reganancia de grasa tras suspender semaglutida.
+- **Fase 2b PLATEAU**: ~200 pacientes ≥65 años con IMC ≥35; reclutamiento completo en julio de 2026.
+- Enobosarm 3 mg avanza a **fase 3**; reunión de fin de fase 2 solicitada a la FDA.
+
+> Nota: son datos de comunicados corporativos, no de publicación revisada por pares. Históricamente, este campo ha anunciado topline positivos que luego no superaron el filtro funcional de la FDA (véase POWER). Prudencia.
+
+#### OPK-88004 — el dato más relevante para el debate sobre próstata
+
+Pencina et al., *J Clin Endocrinol Metab* 2021 — fase 2, aleatorizado, doble ciego, **114 varones** con déficit de testosterona **tras prostatectomía radical** por cáncer de próstata organoconfinado de bajo grado, 1/5/15 mg × 12 semanas. [DOI: 10.1210/clinem/dgab361](https://doi.org/10.1210/clinem/dgab361)
+
+- **Ningún participante presentó recurrencia de PSA.** Ninguno desarrolló eritrocitosis.
+- Aumento dosis-dependiente de masa magra total y apendicular; descenso del % de grasa corporal.
+- **No mejoró** función sexual, deseo, función eréctil, ánimo, fatiga, rendimiento físico ni marcadores óseos (p = 0,73).
+
+Es el dato clínico más tranquilizador que existe sobre riesgo prostático de un SARM — pero son 12 semanas en 114 hombres ya prostatectomizados. No es extrapolable a un varón sano con próstata intacta usando dosis suprafisiológicas durante años. Y otra vez: **masa sí, función no.**
+
+#### El resto del pipeline
+
+| Compuesto | Estado | Nota |
+|---|---|---|
+| **VK5211 / LGD-4033** | Fase 2 completada (fractura de cadera) | Positivo en masa magra y 6MWT; **sin publicación revisada por pares, sin fase 3 iniciada** |
+| **RAD-140** | Fase 1 terminada | Ver §3; toxicidad hepática prominente |
+| **GSK2881078** | Sin desarrollo activo | Fase 2 en EPOC/sarcopenia |
+| **LY2452473** | Fase 2 en cáncer de próstata, completada | Sin desarrollo posterior |
+| **MK-0773, TT-701, S-4 (andarina)** | Abandonados | Andarina ni siquiera llegó a fase 1 (toxicidad visual: alteraciones de la visión de color) |
+
+**Balance del campo tras ~20 años: ningún SARM aprobado en ninguna jurisdicción.** El workshop regulatorio de la SCWD con la FDA (von Haehling et al., *J Cachexia Sarcopenia Muscle* 2025, [DOI: 10.1002/jcsm.13841](https://doi.org/10.1002/jcsm.13841)) explica por qué: la FDA exige cambios clínicamente significativos en función física, resultados reportados por el paciente o morbimortalidad — y para sarcopenia asociada al envejecimiento el estándar de seguridad exigible sería **equivalente al de un fármaco para diabetes tipo 2**, lo que hace los programas tan grandes que sólo serían viables económicamente si impactan morbimortalidad.
+
+### 11.B El mercado gris — "lo más nuevo"
+
+Los compuestos que se promocionan como novedosos en 2025–2026: **YK-11, RAD-150 (TLB-150), ACP-105, S-23, AC-262536, LGD-3303**.
+
+> **Regla general: en el mercado gris, la relación entre novedad y seguridad es inversa.** Un compuesto "nuevo" lo es porque nadie lo ha estudiado, no porque haya superado a los anteriores. RAD-140 y LGD-4033 son "viejos" precisamente porque acumularon suficiente exposición humana como para generar reportes de caso. Los nuevos aún no han llegado a esa fase.
+
+#### YK-11 — el caso más engañoso
+
+Se vende como "el SARM más potente". **No es un SARM no esteroideo.** Es un **esteroide 17-α-metilado** con esqueleto 19-norpregnano derivado de DHT, descrito por Kanno et al. en 2011. Actúa como agonista parcial del AR e inhibe la miostatina por regulación al alza de la folistatina.
+
+> ⚠️ **El grupo 17-α-metilo es exactamente el motivo estructural de los EAA orales clásicamente hepatotóxicos** (estanozolol, oximetolona, metiltestosterona) — los mismos compuestos asociados históricamente con **adenoma hepatocelular, peliosis hepática y carcinoma hepatocelular**. Es decir: YK-11 combina la hepatotoxicidad estructural de un EAA oral con la ausencia total de datos de un compuesto experimental.
+
+- **Cero ensayos clínicos en humanos.** Nunca pasó del cribado preclínico temprano.
+- **Semivida y aclaramiento desconocidos.**
+- No hay literatura revisada por pares sobre su toxicidad; los efectos reportados (supresión de testosterona, elevación de enzimas hepáticas, alopecia, problemas tendinosos, agresividad) provienen de foros, no de estudios.
+
+#### RAD-150 (TLB-150)
+
+Éster benzoato de RAD-140, promocionado por su semivida más larga. **No existe ninguna publicación revisada por pares.** La búsqueda en PubMed no devuelve nada. Todo lo que se afirma sobre él procede de las webs que lo venden.
+
+#### S-23 — se desarrolló como anticonceptivo masculino
+
+El más supresor de la clase. Suprime GnRH, LH y FSH por retroalimentación negativa, reduciendo la testosterona testicular y la espermatogénesis de forma dosis-dependiente, manteniendo el efecto anabólico. Esa propiedad es la razón por la que se investigó como **anticonceptivo hormonal masculino**. Sólo preclínico; en roedores la fertilidad se recuperó en los 4 meses siguientes a la suspensión. **Nunca probado en humanos.** Prohibido por WADA (S1).
+
+#### ACP-105, AC-262536, LGD-3303
+Preclínicos. Sin datos en humanos. Sin justificación para preferirlos sobre nada.
+
+### 11.C Cardarina (GW501516) — la conexión directa con la §6
+
+Este compuesto **no es un SARM** (es un agonista de PPARδ), pero se vende en el mismo carrito, se "apila" con SARMs y aparece como contaminante no declarado en el 39 % de los productos analizados por Van Wagoner. Merece mención aparte porque es **el único compuesto del menú del mercado gris con carcinogenicidad demostrada**:
+
+> GSK abandonó su desarrollo en **2007** tras estudios de toxicología crónica. En experimentos de dosificación durante **104 semanas** (3–30 mg/kg/día), ratas y ratones desarrollaron **neoplasias múltiples en hígado, estómago, vejiga, colon, piel y lengua**. La incidencia de tumor hepático alcanzó el **90 %** en los grupos de dosis alta. *[fuente secundaria]*
+
+WADA emitió una alerta formal de riesgo sanitario específica sobre esta sustancia — algo excepcional, que no ha hecho con RAD-140 ni LGD-4033.
+
+**La implicación clínica directa:** un paciente que dice "tomo SARMs" puede estar tomando cardarina sin saberlo, ya sea deliberadamente en un stack o como adulterante no declarado. **Si la pregunta es "¿esto me puede dar cáncer?", el compuesto sobre el que hay que preguntar dirigidamente es cardarina, no RAD-140 ni ligandrol.** Es la respuesta más útil que arroja toda esta revisión.
+
+También circula **SR9009 (stenabolic)**, agonista de Rev-Erbα, tampoco un SARM, con un caso publicado de DILI hepatocelular (Govil et al., *Cureus* 2025, [DOI: 10.7759/cureus.87376](https://doi.org/10.7759/cureus.87376)).
+
+### 11.D Advertencia sobre las fuentes de esta sección
+
+La búsqueda de "SARMs más novedosos 2025/2026" devuelve **casi exclusivamente webs de venta** (Umbrella Labs, Receptor Chem, Behemoth Labz, Swolverine, Fit Science, MoreplatesMoredates). No son fuentes: son catálogos con formato de artículo. Sus rankings de "mejores resultados" y sus comparativas de potencia no tienen respaldo publicado — **PubMed no devuelve ni una sola entrada revisada por pares sobre RAD-150**, y prácticamente nada sobre YK-11 o ACP-105 más allá de métodos analíticos de detección.
+
+Los únicos trabajos revisados por pares que mencionan a estos compuestos nuevos son de **química analítica antidopaje** — métodos para detectarlos (Maccelli et al., *Anal Methods* 2024, [DOI: 10.1039/d4ay00188e](https://doi.org/10.1039/d4ay00188e); Ventura et al., *Drug Test Anal* 2020, [DOI: 10.1002/dta.2875](https://doi.org/10.1002/dta.2875)). Es decir: **la comunidad científica sabe cómo encontrarlos en la orina, pero no qué le hacen al cuerpo.**
+
+### 11.E Síntesis
+
+| Pregunta | Respuesta |
+|---|---|
+| ¿El más novedoso con mejores resultados **demostrados**? | **Enobosarm**, y lo novedoso no es el culturismo: es la combinación con semaglutida para preservar masa magra durante el adelgazamiento con GLP-1 |
+| ¿El "más nuevo" del mercado gris? | YK-11 y RAD-150 — precisamente los que menos datos tienen |
+| ¿"Mejores resultados" = más músculo? | RAD-140 y YK-11 por potencia percibida, pero se paga en hepatotoxicidad y supresión, y la ganancia de masa **nunca se ha traducido en función** en ningún ensayo controlado |
+| ¿Alguno es más seguro que otro? | No hay evidencia comparativa directa de seguridad entre SARMs. Cualquier ranking de seguridad que encuentres es invención |
+| ¿Cuál preguntar dirigidamente si preocupa el cáncer? | **Cardarina (GW501516)** — el único con carcinogenicidad multiorgánica demostrada, y se vende junto a los SARMs |
+
+---
+
 *Documento con fines informativos y docentes. No constituye consejo médico individual.*
