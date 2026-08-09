@@ -483,4 +483,195 @@ Los únicos trabajos revisados por pares que mencionan a estos compuestos nuevos
 
 ---
 
+## 12. Novedades 2025–2026 específicas de RAD-140 y ligandrol
+
+> Añadido el 9-ago-2026. Búsqueda restringida a publicaciones de 2025–2026 sobre ambos compuestos, más estado regulatorio y de desarrollo.
+
+### 12.A RAD-140
+
+#### Estado de desarrollo farmacéutico
+
+- **RAD-140 tiene ya denominación común internacional: `vosilasarm`.** Que se le asigne una DCI indica que sigue considerado un candidato farmacéutico formal, no un compuesto abandonado.
+- **Radius Health vendió el programa a Ellipses Pharma en octubre de 2020**, dentro de su desinversión en oncología. El desarrollo clínico y la comercialización quedaron en manos de Ellipses. No hay ensayos activos publicados desde entonces.
+
+#### Preclínica nueva — y apunta en dirección favorable
+
+Tres trabajos de 2025–2026 en modelos de envejecimiento, todos del mismo grupo o afines, con un patrón consistente de **dimorfismo sexual**:
+
+**1. Función cardíaca — *Geroscience* 2026** [DOI: 10.1007/s11357-026-02151-9](https://doi.org/10.1007/s11357-026-02151-9)
+Ratones de 23 meses, RAD140 5 mg/kg/día × 6 semanas, ecocardiografía + multiplex de citocinas:
+
+| Parámetro | Efecto vs control |
+|---|---|
+| Fracción de eyección | **+10,4 %** (ambos sexos) |
+| Volumen sistólico | +9,6 µL |
+| Gasto cardíaco | +4,5 mL/min |
+| Strain miocárdico | −5,8 % (**solo machos**) |
+| Tiempo de relajación isovolumétrica | −4,7 ms (**solo machos**) |
+
+En hembras los efectos fueron menores u opuestos. Niveles más altos de **IL-6** correlacionaron con peor strain circunferencial global en machos, no en hembras. Sin diferencias estructurales; el ARNm del AR bajó con el tratamiento en ambos sexos.
+
+> ⚠️ **Cómo leer esto sin sobreinterpretarlo.** Es un hallazgo que *matiza*, no anula, la señal de cardiotoxicidad humana (miocarditis, miopericarditis, trombosis arterial de §4.2). Son ratones viejos con testosterona baja, a dosis controlada, durante 6 semanas — un modelo de *reemplazo* androgénico en déficit. El usuario recreativo es un varón joven eugonadal tomando dosis suprafisiológicas. Son escenarios farmacológicamente opuestos: en uno se corrige un déficit, en el otro se satura un sistema normal. Esperar el mismo efecto cardíaco es un error de razonamiento.
+
+**2. Fragilidad — *Mech Ageing Dev* 2025** [DOI: 10.1016/j.mad.2025.112054](https://doi.org/10.1016/j.mad.2025.112054)
+Misma pauta, 21 machos y 15 hembras de ~24 meses:
+- **No hubo diferencias en fragilidad** entre tratamiento y control — el desenlace primario fue negativo.
+- En **machos**: preservación de masa magra (p = 0,024), de densidad mineral ósea (p = 0,004) y descenso de IL-6 sérica (p = 0,043).
+- En **hembras**: ningún beneficio en composición corporal ni marcadores inflamatorios.
+- **Fuerza de prensión, masa grasa y genes musculares sin cambios en ninguno de los dos sexos.**
+
+> Otra vez el patrón de §11: **cambia la composición corporal, no cambia la función.** Los autores concluyen que RAD140 "puede no ser idóneo" en hembras.
+
+**3. Hipertrofia y hueso — *Physiol Rep* 2025** [DOI: 10.14814/phy2.70463](https://doi.org/10.14814/phy2.70463)
+Ratas Sprague-Dawley, RAD140 en agua de bebida ± sobrecarga funcional del plantar. Evalúa si RAD140 añade efecto a la hipertrofia inducida por carga mecánica.
+
+#### Nuevos efectos adversos humanos descritos
+
+**4. Rotura esplénica atraumática — *Cureus* 2026** [DOI: 10.7759/cureus.106106](https://doi.org/10.7759/cureus.106106)
+Varón de 54 años, dolor en hipocondrio izquierdo y vómitos, **sin traumatismo**, con uso reciente de **RAD-140 + MK-677**. TC: gran hematoma periesplénico. Requirió **embolización de la arteria esplénica y, al fracasar, laparotomía urgente con esplenectomía total**. Histología: áreas extensas de infarto esplénico con rasgos sugestivos de malformación vascular subyacente.
+
+Los autores trazan explícitamente el paralelo con la **peliosis** —cavidades vasculares llenas de sangre que predisponen a la rotura— clásicamente asociada a los EAA. Reconocen que es especulativo y que puede haber una malformación previa, pero es **el primer caso publicado de patología esplénica asociada a RAD-140**.
+
+**5. Ginecomastia e hipogonadismo reversibles — *JCEM Case Rep* 2024** [DOI: 10.1210/jcemcr/luae148](https://doi.org/10.1210/jcemcr/luae148)
+Varón de 40 años con **ginecomastia bilateral e hipogonadismo hipogonadotropo bioquímico** tras 6 meses de suplementos que contenían RAD-140 y MK-677. Reversible. Ilustra bien §5: el paciente compró un "suplemento", no un fármaco.
+
+**6.** Los casos hepáticos de 2025–2026 ya están recogidos en §4.1 (Habeb, Niazi, Dao, Katibian).
+
+#### Antidopaje
+Detección de RAD140 e YK-11 en **crin de caballo** tras administración oral (*Drug Test Anal* 2024, [DOI: 10.1002/dta.3772](https://doi.org/10.1002/dta.3772)) — el problema se ha extendido al deporte equino.
+
+---
+
+### 12.B Ligandrol (LGD-4033)
+
+#### Estado de desarrollo
+**VK5211 sigue parado.** Viking Therapeutics no ha iniciado fase 3 y declara que busca **socio o licenciatario antes de realizar más estudios clínicos**. En la práctica, el desarrollo está detenido desde 2018.
+
+#### El área más activa con diferencia: metabolismo y antidopaje
+
+**1. Nuevos metabolitos y un hallazgo farmacológicamente relevante — *Drug Test Anal* 2025, Partes 1 y 2**
+[Parte 1 · DOI: 10.1002/dta.70009](https://doi.org/10.1002/dta.70009) · [Parte 2 · DOI: 10.1002/dta.70005](https://doi.org/10.1002/dta.70005)
+
+Elucidación estructural de metabolitos adicionales por LC-HRMS/MS contra moléculas sintetizadas y caracterizadas por RMN. Lo interesante no es analítico:
+
+- Se describe **M8**, un **derivado pirrólico** de LGD-4033 no descrito previamente, detectable hasta **6 días** tras la administración, y ≥120 h incluso tras dosis repetidas de 10 µg (escenario de contaminación).
+- Ensayos de transactivación del AR en modelo PC3(AR) + docking molecular: **M8 actúa como antagonista potente del AR**, mientras que **M2c se reconfirmó como agonista potente**.
+- Los autores proponen incluir M2c en los métodos de cribado **porque podría comercializarse en el mercado negro como alternativa a LGD-4033**. Es una anticipación explícita del próximo compuesto de diseño.
+- Utilidad forense: combinando M8 (excreción temprana) con los metabolitos de larga duración (M5b, M5a, M2c, M2d) **se puede distinguir el dopaje por dosificación regular de la contaminación inadvertida o la microdosificación**.
+
+**2. Cuantificación del metabolito carboxilado de larga duración (M5-b) — *Drug Test Anal* 2026** [DOI: 10.1002/dta.70130](https://doi.org/10.1002/dta.70130)
+Primeros datos cuantitativos de excreción en microdosis (1, 10 y 50 µg) con material de referencia certificado. Detectable varios días tras dosis única y sustancialmente más tras administración consecutiva.
+
+**3. Transferencia por contacto íntimo — *J Anal Toxicol* 2025** [DOI: 10.1093/jat/bkaf041](https://doi.org/10.1093/jat/bkaf041)
+El caso más singular del año. Una atleta dio positivo por bishidroxi-ligandrol en orina (~90 pg/mL en muestra A, 200 pg/mL en B). Impugnó la sanción y pidió análisis capilar:
+
+- Su cabello (castaño, >20 cm, segmentado en 6 × 1 cm, LOQ 1 pg/mg): **ligandrol no detectado**.
+- El cabello de su marido: **ligandrol a 7 y 8 pg/mg** en dos segmentos de 2,5 cm.
+- Ella desconocía que él tomaba la sustancia.
+- **El Tribunal de Arbitraje Deportivo (TAS/CAS) aceptó la explicación de exposición por intercambio de fluidos corporales y levantó la suspensión provisional.**
+
+Precedente jurídico y demostración de que la transferencia entre personas es posible.
+
+**4. Exposición transdérmica — *J Anal Toxicol* 2025** [DOI: 10.1093/jat/bkaf066](https://doi.org/10.1093/jat/bkaf066)
+Perfiles de eliminación y metabolismo tras exposición cutánea. La piel es una superficie amplia de penetración y constituye otra vía de exposición inadvertida además de la ingesta oral de trazas por contaminación.
+
+**5. Metabolismo en vesícula seminal — *Metabolites* 2025** [DOI: 10.3390/metabo15070452](https://doi.org/10.3390/metabo15070452)
+Capacidad metabólica de fracciones celulares de vesícula seminal humana para stanozolol, LGD-4033, GW1516, trimetazidina y anastrozol. Relevante para escenarios de contaminación de la muestra en el momento de la recogida.
+
+**6.** Detección de metabolitos de LGD-4033 en orina, plasma y pelo de **camello** (*Rapid Commun Mass Spectrom* 2025, [DOI: 10.1002/rcm.9989](https://doi.org/10.1002/rcm.9989)) — carreras de camellos.
+
+#### Farmacología nueva — y contradice el marketing
+
+**7. Ligandrol empeora el rendimiento de resistencia — *Naunyn Schmiedebergs Arch Pharmacol* 2025** [DOI: 10.1007/s00210-025-04028-8](https://doi.org/10.1007/s00210-025-04028-8)
+
+Ratas macho sanas de 14 semanas, ligandrol 0,4 mg/kg 5×/semana durante **8 semanas**, con y sin entrenamiento de resistencia (n = 10/grupo):
+
+| Efecto de ligandrol | Dirección |
+|---|---|
+| Resistencia submáxima | **↓** |
+| Consumo máximo de oxígeno (VO₂ máx) | **↓** |
+| Glucosa | ↓ |
+| FSH | ↓ |
+| Testosterona | ↓ |
+| Triglicéridos | ↑ |
+| Colesterol total | ↑ |
+| Fuerza de prensión | ↑ |
+| Velocidad máxima de sprint, tiempo hasta agotamiento | sin efecto |
+| Parámetros hematológicos y morfométricos | sin efecto |
+| Expresión de miostatina e IGF-1 | sin efecto |
+| **En el grupo entrenado:** expresión de *Vegf-a* | **↓** |
+| **En el grupo entrenado:** tamaño de fibras tipo I y IIa | **↓** |
+
+Conclusión textual de los autores: **"los efectos negativos del tratamiento con ligandrol superaron a sus beneficios"**, y la combinación con entrenamiento **no aportó ventaja** sobre el entrenamiento solo.
+
+> Es un modelo animal y una dosis única, con las limitaciones habituales. Pero el hallazgo es llamativo por su dirección: **ligandrol redujo la capacidad aeróbica y, en animales entrenados, la angiogénesis muscular y el tamaño de las fibras oxidativas y mixtas.** Es lo contrario de lo que se promete en el marketing.
+
+**8. Línea emergente: SARMs en diabetes tipo 2.** Dos trabajos preclínicos exploran ligandrol y nuevos SARMs para preservar el islote pancreático y mejorar la secreción de insulina, buscando el beneficio metabólico de la testosterona sin sus efectos adversos (*Assay Drug Dev Technol* 2024, [DOI: 10.1089/adt.2024.029](https://doi.org/10.1089/adt.2024.029); *Eur J Pharmacol* 2025, [DOI: 10.1016/j.ejphar.2025.177825](https://doi.org/10.1016/j.ejphar.2025.177825)). Muy preliminar.
+
+---
+
+### 12.C Regulatorio — la novedad más concreta y accionable
+
+**12 de diciembre de 2025: oleada coordinada de cartas de advertencia de la FDA.** Al menos siete empresas recibieron cartas el mismo día — Titan SARMs LLC, Dynamic Health Group (dba SARMs America), Atomix LLC, Prime Sports Nutrition, MusclePower Enterprise (dba Monster King y GE Labs), Pinnacle Professional Research (dba Pinnacle Peptides), entre otras.
+
+Las cartas nombran **explícitamente LGD-4033 (Ligandrol), RAD-140 (Testolone), S-4 (Andarina) e YK-11**, y los califican de **fármacos nuevos no aprobados** conforme al §505(a) de la FD&C Act; su introducción en el comercio interestatal viola los §301(d) y §505(a). *[fuente secundaria: fda.gov bloqueado por el proxy; contenido recuperado indirectamente]*
+
+**Pero el estatus legal de fondo no ha cambiado:**
+
+| | Situación |
+|---|---|
+| Listas de la DEA (Controlled Substances Act) | **No están.** No son sustancia controlada en EE. UU. |
+| SARMs Control Act | **Nunca aprobado.** S.2742 (2018) y S.2895 (2019) nombraban explícitamente ligandrol y RAD-140 y habrían permitido al Fiscal General programarlos; ninguno prosperó |
+| Venta como suplemento o fármaco | Ilegal |
+| WADA | Prohibidos en todo momento desde 2008, sección S1.2 |
+| Reino Unido (FSA) | "Alimentos nuevos no autorizados" — ilegal venderlos o publicitarlos |
+| Australia (TGA) | No aprobados; compra ilegal por internet |
+
+> La consecuencia práctica: la FDA persigue a los **vendedores** por comercializar fármacos no aprobados, no a los usuarios por posesión. Eso mantiene el mercado vivo y explica que las cartas se repitan año tras año sin que la disponibilidad disminuya.
+
+---
+
+### 12.D Nota crítica sobre la revisión sistemática de 2024
+
+Una advertencia importante si te cruzas con esta cita, porque es la que más se usará para defender que "los SARMs funcionan":
+
+**Selective Androgen Receptor Modulators (SARMs) Effects on Physical Performance: A Systematic Review of Randomized Control Trials.** *Clin Endocrinol (Oxf)* 2024. [DOI: 10.1111/cen.15135](https://doi.org/10.1111/cen.15135)
+9 estudios, 970 pacientes, edad media 57,1 años, seguimiento medio 80 días, 6 SARMs (LGD-4033, PF-06260414, GSK2881078, GTx-024, MK-0773, OPK-88004).
+
+**Conclusión de los autores:** *"SARMs have a positive effect on physical performance and body composition."*
+
+**Sus propios datos:**
+
+| Parámetro | Pre | Post | Δ |
+|---|---|---|---|
+| **Potencia al subir escaleras** | 352,24 W | **315,16 W** | **↓ −37 W** |
+| Press de piernas 1RM | 1822,77 N | 2191,27 N | ↑ |
+| SPPB | 9,15 | 9,79 | ↑ marginal |
+| Masa magra | 49,46 kg | 50,86 kg | ↑ +1,4 kg |
+| Masa grasa | 21,99 kg | 21,85 kg | ≈ 0 |
+
+> **La conclusión no se sigue de los datos presentados.** El endpoint de función física más utilizado en el campo —la potencia al subir escaleras, exactamente el que hundió los ensayos POWER— **empeoró** en las medias agrupadas. Además, son medias pre/post agrupadas sin comparación frente a placebo: no es un metaanálisis, es una síntesis descriptiva, y mezcla brazos activos y control. La revisión es útil como inventario de ensayos; su conclusión de eficacia funcional no es defendible con los números que ella misma publica.
+>
+> Esto refuerza, no debilita, lo dicho en §11.A: **el campo lleva veinte años demostrando cambios de composición corporal y fracasando en demostrar función.**
+
+---
+
+### 12.E Síntesis de novedades
+
+| Ámbito | Novedad | Dirección |
+|---|---|---|
+| RAD-140 preclínico | Mejora función cardíaca y preserva masa magra/DMO en ratones viejos **machos** | Favorable, pero modelo de reemplazo en déficit, no extrapolable al uso recreativo |
+| RAD-140 preclínico | **No mejoró fragilidad ni fuerza de prensión**; sin beneficio en hembras | Desfavorable / dimorfismo sexual |
+| RAD-140 clínico | Primer caso de **rotura esplénica atraumática**; ginecomastia + hipogonadismo reversibles | Nuevos tipos de evento adverso |
+| RAD-140 desarrollo | DCI `vosilasarm`; programa vendido a Ellipses Pharma (2020) | Sigue vivo como candidato oncológico |
+| LGD-4033 farmacología | **Redujo resistencia y VO₂ máx** en ratas; ↓ Vegf-a y fibras I/IIa en entrenadas | Contradice el marketing |
+| LGD-4033 antidopaje | Metabolito **M8** (antagonista del AR) permite datar la toma y separar dopaje de contaminación | Avance metodológico |
+| LGD-4033 antidopaje | **M2c es agonista potente** — los autores anticipan su aparición en el mercado negro | Alerta prospectiva |
+| LGD-4033 forense | **Transferencia por contacto íntimo** aceptada por el TAS/CAS | Precedente jurídico |
+| LGD-4033 desarrollo | VK5211 parado; Viking busca licenciatario | Estancado |
+| Regulatorio | **Oleada de cartas FDA del 12-dic-2025** nombrando ambos compuestos | Enforcement sobre vendedores, no sobre usuarios |
+| Metodológico | Revisión sistemática 2024 con conclusión no respaldada por sus datos | Precaución al citarla |
+
+---
+
 *Documento con fines informativos y docentes. No constituye consejo médico individual.*
